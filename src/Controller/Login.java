@@ -6,18 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Login extends Application {
-
+public class Login implements Initializable {
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/login.fxml"));
-        primaryStage.setTitle("Welcome to ABS Book Store");
-        primaryStage.setScene(new Scene(root, 700, 700));
-        primaryStage.show();
-    }
+    public void initialize(URL location, ResourceBundle resources) {
 
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
