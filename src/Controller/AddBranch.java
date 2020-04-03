@@ -6,18 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AddBranch extends Application {
-
+public class AddBranch implements Initializable {
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/addBranch.fxml"));
-        primaryStage.setTitle("Welcome to ABS Book Store");
-        primaryStage.setScene(new Scene(root, 700, 700));
-        primaryStage.show();
-    }
+    public void initialize(URL location, ResourceBundle resources) {
 
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
