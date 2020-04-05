@@ -1,5 +1,3 @@
-package Model;
-
 public class Employee {
     private int employeeID;
     private String firstName;
@@ -74,7 +72,10 @@ public class Employee {
         return "Employee{" +
                 "employeeID='" + employeeID + '\'' +
                 ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", phoneNumber=" + phoneNumber +
+                ", email=" + email +
+                ", address=" + address +
                 ", startDate=" + startDate +
                 ", managerID=" + managerID +
                 ", hotelID=" + hotelID +

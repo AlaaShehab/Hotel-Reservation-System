@@ -1,5 +1,3 @@
-package Model;
-
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,22 +28,26 @@ public class ManageDataBase {
         java.util.Date date = sdf.parse(employee.getStartDate());
         java.sql.Date sqlDate = new Date(date.getTime());
         PreparedStatement addBranch = SQLConnection.getInstance().getConnection().prepareStatement(
-                "INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-        addBranch.setString(1, employee.getFirstName());
-        addBranch.setString(2, employee.getLastName());
-        addBranch.setString(3, employee.getPhoneNo());
-        addBranch.setString(4, employee.getAddress());
-        addBranch.setDate(5,sqlDate);
+                "INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+        addBranch.setInt(1, employee.getEmployeeID());
+        addBranch.setString(2, employee.getFirstName());
+        addBranch.setString(3, employee.getLastName());
+        addBranch.setString(4, employee.getPhoneNo());
+        addBranch.setString(5, employee.getAddress());
+        addBranch.setDate(6,sqlDate);
         if (employee.getManagerID() != -1) {
-            addBranch.setInt(6, employee.getManagerID());
+            addBranch.setInt(7, employee.getManagerID());
         } else {
-            addBranch.setString(6, null);
+            addBranch.setString(7, null);
         }
-        addBranch.setInt(7, employee.getHotelID());
-        addBranch.setInt(8, employee.getBranchID());
-        addBranch.setString(9, employee.getEmail());
-        addBranch.setInt(10, employee.getBranchID());
-        addBranch.setString(11, employee.getPassword());
+        addBranch.setInt(8, employee.getHotelID());
+        addBranch.setInt(9, employee.getBranchID());
+        addBranch.setString(10, employee.getEmail());
+        //encrypt password
+        String salt = PasswordUtils.getSalt(30);
+        String securePassword = PasswordUtils.generateSecurePassword(employee.getPassword(), salt);
+        addBranch.setString(11, securePassword);
+        addBranch.setString(12, salt);
         if(addBranch.executeUpdate() == -1){
             return false;
         }
@@ -73,7 +75,7 @@ public class ManageDataBase {
     }
     public boolean editBranchInfo(Branch branch) throws SQLException {
         PreparedStatement checkBranch = SQLConnection.getInstance().getConnection().prepareStatement(
-                "SELECT * FROM Branch WHERE Branch_ID = ? and Hotel_ID = ?;");
+                "SELECT * FROM Hotel NATURAL JOIN Branch WHERE Branch_ID = ? and Hotel_ID = ?;");
         checkBranch.setInt(1, branch.getBranchID());
         checkBranch.setInt(2, branch.getHotelID());
         ResultSet rs = checkBranch.executeQuery();
@@ -125,7 +127,9 @@ public class ManageDataBase {
             editEmployee.setString(3, employee.getPhoneNo());
             editEmployee.setString(4, employee.getAddress());
             editEmployee.setString(5, employee.getEmail());
-            editEmployee.setString(6, employee.getPassword());
+            String salt = PasswordUtils.getSalt(30);
+            String securePassword = PasswordUtils.generateSecurePassword(employee.getPassword(), salt);
+            editEmployee.setString(6, securePassword);
 
             if (editEmployee.execute()) {
                 return true;
@@ -139,8 +143,8 @@ public class ManageDataBase {
         checkEmployee.setString(1, email);
         ResultSet rs = checkEmployee.executeQuery();
         if (rs.next()) {
-            // encrypt password
-            if (password.equals(rs.getString("Emp_Password"))) {
+            boolean passwordMatch = PasswordUtils.verifyUserPassword(password, rs.getString("password"), rs.getString("salt"));
+            if (passwordMatch) {
                 Employee employee = constructEmployee(rs);
                 return employee;
             }
@@ -187,6 +191,20 @@ public class ManageDataBase {
         }
         return branches;
     }
+    public ArrayList<Branch> getManagerBranches(int ManagerID){
+        String query = "SELECT * FROM Hotel NATURAL JOIN Branch " +
+                "WHERE MGR_ID = " + ManagerID +";";
+        ArrayList<Branch> branches = new ArrayList<>();
+        try {
+            ResultSet rs = SQLConnection.getInstance().getData(query);
+            while (rs.next()) {
+                branches.add(constructBranch(rs));
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return branches;
+    }
     public boolean addHotel(String hotelName, int hotelID)throws SQLException{
         PreparedStatement addHotel = SQLConnection.getInstance().getConnection().prepareStatement(
                 "INSERT INTO Hotel VALUES (?,?);");
@@ -200,6 +218,7 @@ public class ManageDataBase {
     private Branch constructBranch(ResultSet rs){
         Branch branch = new Branch();
         try {
+            branch.setHotelName(rs.getString("Hotel_Name"));
             branch.setBranchID(rs.getInt("Branch_ID"));
             branch.setHotelID(rs.getInt("Hotel_ID"));
             branch.setManagerID(rs.getInt("MGR_ID"));
@@ -228,8 +247,7 @@ public class ManageDataBase {
             employee.setManagerID(rs.getInt("MGR_ID"));
             employee.setHotelID(rs.getInt("Hotel_ID"));
             employee.setBranchID(rs.getInt("Branch_ID"));
-            employee.setPassword(rs.getString("Emp_Password"));
-
+            //password
             if (employee.getEmployeeID() == employee.getManagerID()) {
                 employee.setEmployeeIsManager(true);
             }
