@@ -1,3 +1,8 @@
+package Model;
+
+import Model.Branch;
+import Model.SQLConnection;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -187,7 +192,7 @@ public class ManageDataBase {
         return branches;
     }
     public ArrayList<Branch> getManagerBranches(int ManagerID){
-        String query = "SELECT * FROM Hotel NATURAL JOIN Branch " +
+        String query = "SELECT * FROM Branch NATURAL JOIN Hotel NATURAL JOIN Location " +
                 "WHERE MGR_ID = " + ManagerID +";";
         ArrayList<Branch> branches = new ArrayList<>();
         try {
@@ -224,6 +229,7 @@ public class ManageDataBase {
             branch.setGym(rs.getBoolean("GYM"));
             branch.setPool(rs.getBoolean("POOL"));
             branch.setSpa(rs.getBoolean("SPA"));
+            branch.setLocation(rs.getString("City"));
             return branch;
         } catch(Exception e){
             System.out.println(e);

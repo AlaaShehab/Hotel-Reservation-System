@@ -61,9 +61,7 @@ public class ManagerHome implements Initializable {
         location.setCellValueFactory(new PropertyValueFactory<Branch, String>("location"));
 
         ManageDataBase activity = new ManageDataBase();
-        //TODO edit this
-        //List<Branch> managerBranches = activity.getBranches(employee.getEmployeeID());
-        List<Branch> managerBranches = new ArrayList<>();
+        List<Branch> managerBranches = activity.getManagerBranches(employee.getEmployeeID());
         managerName.setText(employee.getFirstName() + " " + employee.getLastName());
 
         if (managerBranches.isEmpty()) {
