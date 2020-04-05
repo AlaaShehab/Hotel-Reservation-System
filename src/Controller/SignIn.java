@@ -29,6 +29,7 @@ public class SignIn implements Initializable {
 
     private static User user;
     private static Employee employee;
+    private static final String MSG = "Wrong email and password combination";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -37,7 +38,10 @@ public class SignIn implements Initializable {
 
     @FXML
     private void signInHandler (ActionEvent event) throws Exception{
-
+        if (InputValidator.validEmail(email) || InputValidator.validPassword(password)) {
+            PopUpMessages.errorMsg(MSG);
+            return;
+        }
         if (employeeLogin.isSelected()) {
             loginEmployee(event);
             return;
@@ -48,18 +52,14 @@ public class SignIn implements Initializable {
     private void loginEmployee (ActionEvent event) throws IOException {
         ManageDataBase activity = new ManageDataBase();
         Employee employee = null;
-        if (email.getText().isEmpty() || password.getText().isEmpty()) {
-            errorMsg();
-            return;
-        }
         try {
             employee = activity.signIN(email.getText(), password.getText());
         } catch (SQLException e) {
-            errorMsg();
+            PopUpMessages.errorMsg(MSG);
             return;
         }
         if (employee == null) {
-            errorMsg();
+            PopUpMessages.errorMsg(MSG);
             return;
         }
         setEmployee(employee);
@@ -78,10 +78,6 @@ public class SignIn implements Initializable {
     private void loginUser (ActionEvent event) throws IOException {
         ManageDataBase activity = new ManageDataBase();
         User user = null;
-        if (email.getText().isEmpty() || password.getText().isEmpty()) {
-            errorMsg();
-            return;
-        }
         //TODO milestone 3
 //        try {
 //            user = activity.signIN(email.getText(), password.getText())
@@ -89,7 +85,7 @@ public class SignIn implements Initializable {
 //            errorMsg();
 //        }
         if (user == null) {
-            errorMsg();
+            PopUpMessages.errorMsg(MSG);
             return;
         }
         setUser(user);
@@ -99,15 +95,6 @@ public class SignIn implements Initializable {
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);
         app_stage.show();
-    }
-
-    private void errorMsg () {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Signing in");
-        alert.setHeaderText("Wrong email and password combination");
-        alert.setContentText(null);
-
-        alert.showAndWait();
     }
     @FXML
     private void backHandler (ActionEvent event) throws Exception{
