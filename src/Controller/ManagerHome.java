@@ -64,15 +64,6 @@ public class ManagerHome implements Initializable {
         //TODO edit this
         //List<Branch> managerBranches = activity.getBranches(employee.getEmployeeID());
         List<Branch> managerBranches = new ArrayList<>();
-        //dump test TODO remove this
-        Branch b = new Branch();
-        b.setBranchID(1);
-        b.setGarage(true);
-        b.setLocation("Milano");
-        b.setCarRental(true);
-        b.setRating(3);
-
-        managerBranches.add(b);
         managerName.setText(employee.getFirstName() + " " + employee.getLastName());
 
         if (managerBranches.isEmpty()) {
@@ -113,6 +104,10 @@ public class ManagerHome implements Initializable {
         public void handle(Event event){
             //TODO handle if no item is selected (i.e. ix is out of range)
             int ix = branches.getSelectionModel().getSelectedIndex();
+            if (ix < 0) {
+                PopUpMessages.errorMsg("Please select a valid branch");
+                return;
+            }
             Branch branch = (Branch) branches.getSelectionModel().getSelectedItem();
             selectedBranch = branch;
 
@@ -131,6 +126,14 @@ public class ManagerHome implements Initializable {
     @FXML
     private void addBranchHandler (ActionEvent event) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/addBranch.fxml"));
+        Scene scene = new Scene(root);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.setScene(scene);
+        app_stage.show();
+    }
+    @FXML
+    private void editProfileHandler (ActionEvent event) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("../View/employeeProfile.fxml"));
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);

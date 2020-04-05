@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EmplyeeProfile implements Initializable {
+public class EmployeeProfile implements Initializable {
 
     @FXML private TextField firstName;
     @FXML private TextField lastName;
@@ -35,7 +35,7 @@ public class EmplyeeProfile implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(
-                "View/signIn.fxml"));
+                "../View/signIn.fxml"));
         Parent root;
         try {
             root = (Parent) loader.load();
@@ -61,7 +61,7 @@ public class EmplyeeProfile implements Initializable {
 
     @FXML
     private void closeWindowHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/managerHome.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);
@@ -71,7 +71,7 @@ public class EmplyeeProfile implements Initializable {
     @FXML
     private void EditProfileHandler (ActionEvent event) throws Exception{
         if (!validInput()) {
-            errorMsg ();
+            PopUpMessages.errorMsg("Wrong profile data");
             closeWindowHandler(event);
             return;
         }
@@ -84,28 +84,19 @@ public class EmplyeeProfile implements Initializable {
         emplyee.setStartDate(startDate.getText());
 
         ManageDataBase activity = new ManageDataBase();
-        activity.editEmployeeInfo(emplyee);
         if (!activity.editEmployeeInfo(emplyee)) {
-            errorMsg ();
+            PopUpMessages.errorMsg("Wrong profile data");
             closeWindowHandler(event);
             return;
         }
+        PopUpMessages.successMsg("Your profile was updated");
         signInController.setEmployee(emplyee);
         closeWindowHandler(event);
     }
 
-    private void errorMsg () {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Wrong profile data");
-        alert.setContentText(null);
-
-        alert.showAndWait();
-    }
-
     private boolean validInput () {
-        return !firstName.getText().isEmpty() && !lastName.getText().isEmpty()
-                && !password.getText().isEmpty() && !email.getText().isEmpty()
-                && !phone.getText().isEmpty() && !address.getText().isEmpty();
+        return InputValidator.validEmail(email) && InputValidator.validPassword(password)
+                && InputValidator.validName(firstName) && InputValidator.validName(lastName)
+                && InputValidator.validateMobileNo(phone);
     }
 }

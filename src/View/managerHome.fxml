@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" prefHeight="576.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ManagerHome">
+<AnchorPane fx:id="anchor" prefHeight="497.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ManagerHome">
     <children>
-        <Button fx:id="getBranchInfo" layoutX="602.0" layoutY="256.0" mnemonicParsing="false" text="Get Branch Info" />
-        <Button fx:id="addbranch" layoutX="602.0" layoutY="321.0" mnemonicParsing="false" onAction="#addBranchHandler" text="Add Branch" />
-        <TableView fx:id="branches" layoutX="69.0" layoutY="117.0" prefHeight="331.0" prefWidth="484.0">
+        <Button fx:id="getBranchInfo" layoutX="602.0" layoutY="216.0" mnemonicParsing="false" text="Get Branch Info" />
+        <Button fx:id="addbranch" layoutX="602.0" layoutY="273.0" mnemonicParsing="false" onAction="#addBranchHandler" text="Add Branch" />
+        <TableView fx:id="branches" layoutX="69.0" layoutY="177.0" prefHeight="158.0" prefWidth="484.0">
             <columns>
                 <TableColumn fx:id="branchID" editable="false" prefWidth="223.0" text="Branch ID" />
                 <TableColumn fx:id="location" editable="false" prefWidth="259.0" text="Location" />
@@ -22,15 +22,19 @@
                 <Font size="20.0" />
             </font>
         </Label>
-        <Button fx:id="backBtn" layoutX="400.0" layoutY="507.0" mnemonicParsing="false" onAction="#backHandler" prefHeight="31.0" prefWidth="68.0" text="Back" />
-      <Label fx:id="managerName" layoutX="411.0" layoutY="52.0" prefHeight="21.0" prefWidth="153.0">
+        <Button fx:id="backBtn" layoutX="382.0" layoutY="421.0" mnemonicParsing="false" onAction="#backHandler" prefHeight="31.0" prefWidth="68.0" text="Back" />
+      <Label fx:id="managerName" layoutX="403.0" layoutY="52.0" prefHeight="21.0" prefWidth="153.0">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+      <Label fx:id="hotelName" layoutX="69.0" layoutY="117.0" text="Hotel Name">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Label fx:id="hotelName" layoutX="69.0" layoutY="88.0" text="Hotel Name" />
       <Label fx:id="noBranches" layoutX="228.0" layoutY="270.0" text="No Branches to show" visible="false">
          <font>
             <Font size="20.0" />
          </font></Label>
+      <Button fx:id="editProfile" layoutX="69.0" layoutY="51.0" mnemonicParsing="false" onAction="#editProfileHandler" text="Edit Profile" />
     </children>
 </AnchorPane>
