@@ -54,7 +54,7 @@ public class ManageDataBase {
         return true;
     }
     public Branch getBranchInfo(int hotelID, int branchID){
-        String query = "SELECT * FROM Branch " +
+        String query = "SELECT * FROM Hotel NATURAL JOIN Branch " +
                 "WHERE Hotel_ID = "+ hotelID +" and Branch_ID = "+
                 branchID + ";";
         ResultSet rs = null;
@@ -62,11 +62,6 @@ public class ManageDataBase {
             rs = SQLConnection.getInstance().getData(query);
             rs.next();
             Branch branch = constructBranch(rs);
-            String query1 = "SELECT Hotel_Name FROM Hotel NATURAL JOIN Branch " +
-                    "WHERE Hotel_ID = " + hotelID +";";
-            rs = SQLConnection.getInstance().getData(query1);
-            rs.next();
-            branch.setHotelName(rs.getString("Hotel_Name"));
             return branch;
         } catch(Exception e){
             System.out.println(e);
@@ -121,17 +116,15 @@ public class ManageDataBase {
         if (rs.next()) {
             PreparedStatement editEmployee = SQLConnection.getInstance().getConnection().prepareStatement(
                     "UPDATE Employee SET First_Name = ?, Last_Name = ?, PhoneNo = ?," +
-                            "Address = ?, Email = ?, password = ?;");
+                            "Address = ?, password = ?;");
             editEmployee.setString(1, employee.getFirstName());
             editEmployee.setString(2, employee.getLastName());
             editEmployee.setString(3, employee.getPhoneNo());
             editEmployee.setString(4, employee.getAddress());
-            editEmployee.setString(5, employee.getEmail());
             String salt = PasswordUtils.getSalt(30);
             String securePassword = PasswordUtils.generateSecurePassword(employee.getPassword(), salt);
-            editEmployee.setString(6, securePassword);
-
-            if (editEmployee.execute()) {
+            editEmployee.setString(5, securePassword);
+            if (!editEmployee.execute()) {
                 return true;
             }
         }
@@ -223,7 +216,7 @@ public class ManageDataBase {
             branch.setHotelID(rs.getInt("Hotel_ID"));
             branch.setManagerID(rs.getInt("MGR_ID"));
             branch.setRating(rs.getFloat("Rating"));
-            branch.setBeach(Boolean.parseBoolean(rs.getString("Beach")));
+            branch.setBeach(rs.getBoolean("Beach"));
             branch.setCarRental(rs.getBoolean("Car_Rental"));
             branch.setGarage(rs.getBoolean("Garage"));
             branch.setGym(rs.getBoolean("GYM"));
