@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Branch;
 import Model.Employee;
+import Model.ManageDataBase;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +43,7 @@ public class ManagerHome implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(
-                "View/signIn.fxml"));
+                "../View/signIn.fxml"));
         Parent root;
         try {
             root = (Parent) loader.load();
@@ -52,7 +53,6 @@ public class ManagerHome implements Initializable {
 
         SignIn signInController = loader.getController();
         employee = signInController.getEmployee();
-
         init();
     }
 
@@ -60,9 +60,20 @@ public class ManagerHome implements Initializable {
         branchID.setCellValueFactory(new PropertyValueFactory<Branch, String>("branchID"));
         location.setCellValueFactory(new PropertyValueFactory<Branch, String>("location"));
 
-        EmployeeActivities activity = new EmployeeActivities();
-        List<Branch> managerBranches = activity.getBranches(employee.getEmail());
-        managerName.setText(employee.getFirstName() + employee.getLastName());
+        ManageDataBase activity = new ManageDataBase();
+        //TODO edit this
+        //List<Branch> managerBranches = activity.getBranches(employee.getEmployeeID());
+        List<Branch> managerBranches = new ArrayList<>();
+        //dump test TODO remove this
+        Branch b = new Branch();
+        b.setBranchID(1);
+        b.setGarage(true);
+        b.setLocation("Milano");
+        b.setCarRental(true);
+        b.setRating(3);
+
+        managerBranches.add(b);
+        managerName.setText(employee.getFirstName() + " " + employee.getLastName());
 
         if (managerBranches.isEmpty()) {
             hotelName.setVisible(false);
@@ -90,7 +101,7 @@ public class ManagerHome implements Initializable {
 
     @FXML
     private void backHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/managerHome.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);
@@ -107,7 +118,7 @@ public class ManagerHome implements Initializable {
 
             Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("View/branchInfo.fxml"));
+                root = FXMLLoader.load(getClass().getResource("../View/branchInfo.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -116,5 +127,13 @@ public class ManagerHome implements Initializable {
             app_stage.setScene(scene);
             app_stage.show();
         }
+    }
+    @FXML
+    private void addBranchHandler (ActionEvent event) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("../View/addBranch.fxml"));
+        Scene scene = new Scene(root);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.setScene(scene);
+        app_stage.show();
     }
 }

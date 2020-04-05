@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.ManageDataBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,9 +54,9 @@ public class EmplyeeProfile implements Initializable {
         lastName.setText(emplyee.getLastName());
         password.setText(emplyee.getPassword());
         email.setText(emplyee.getEmail());
-        phone.setText(emplyee.getPhoneNumber());
+        phone.setText(emplyee.getPhoneNo());
         address.setText(emplyee.getAddress());
-        startDate.setText(emplyee.startDate());
+        startDate.setText(emplyee.getStartDate());
     }
 
     @FXML
@@ -69,19 +70,25 @@ public class EmplyeeProfile implements Initializable {
 
     @FXML
     private void EditProfileHandler (ActionEvent event) throws Exception{
-
+        if (!validInput()) {
+            errorMsg ();
+            closeWindowHandler(event);
+            return;
+        }
         emplyee.setFirstName(firstName.getText());
         emplyee.setLastName(lastName.getText());
         emplyee.setPassword(password.getText());
         emplyee.setEmail(email.getText());
-        emplyee.setPhoneNumber(phone.getText());
+        emplyee.setPhoneNo(phone.getText());
         emplyee.setAddress(address.getText());
-        emplyee.startDate(startDate.getText());
+        emplyee.setStartDate(startDate.getText());
 
-        UsersActivitie activity = new UsersActivitie();
-
-        if (!activity.editEmployeeProfile(emplyee)) {
+        ManageDataBase activity = new ManageDataBase();
+        activity.editEmployeeInfo(emplyee);
+        if (!activity.editEmployeeInfo(emplyee)) {
             errorMsg ();
+            closeWindowHandler(event);
+            return;
         }
         signInController.setEmployee(emplyee);
         closeWindowHandler(event);
@@ -94,5 +101,11 @@ public class EmplyeeProfile implements Initializable {
         alert.setContentText(null);
 
         alert.showAndWait();
+    }
+
+    private boolean validInput () {
+        return !firstName.getText().isEmpty() && !lastName.getText().isEmpty()
+                && !password.getText().isEmpty() && !email.getText().isEmpty()
+                && !phone.getText().isEmpty() && !address.getText().isEmpty();
     }
 }

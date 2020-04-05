@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Employee;
+import Model.ManageDataBase;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,18 +12,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SignIn implements Initializable {
 
     @FXML private CheckBox employeeLogin;
     @FXML private TextField email;
-    @FXML private TextField password;
+    @FXML private PasswordField password;
 
     private static User user;
     private static Employee employee;
@@ -43,16 +46,28 @@ public class SignIn implements Initializable {
     }
 
     private void loginEmployee (ActionEvent event) throws IOException {
-        EmployeeActivities activity = new EmployeeActivities();
-        if (!activity.employeeExists(email.getText(), password.getText())) {
+        ManageDataBase activity = new ManageDataBase();
+        Employee employee = null;
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {
             errorMsg();
+            return;
         }
-        setEmployee(activity.getEmployee());
+        try {
+            employee = activity.signIN(email.getText(), password.getText());
+        } catch (SQLException e) {
+            errorMsg();
+            return;
+        }
+        if (employee == null) {
+            errorMsg();
+            return;
+        }
+        setEmployee(employee);
         Parent root = null;
         if (employee.isManager()) {
-            FXMLLoader.load(getClass().getResource("View/managerHome.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
         } else {
-            FXMLLoader.load(getClass().getResource("View/staffHome.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../View/staffHome.fxml"));
         }
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -61,13 +76,25 @@ public class SignIn implements Initializable {
     }
 
     private void loginUser (ActionEvent event) throws IOException {
-        UserActivities activity = new UserActivities();
-        if (!activity.userExists(email.getText(), password.getText())) {
+        ManageDataBase activity = new ManageDataBase();
+        User user = null;
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {
             errorMsg();
+            return;
         }
-        setUser(activity.getUser());
+        //TODO milestone 3
+//        try {
+//            user = activity.signIN(email.getText(), password.getText())
+//        } catch (SQLException e) {
+//            errorMsg();
+//        }
+        if (user == null) {
+            errorMsg();
+            return;
+        }
+        setUser(user);
         //TODO edit in milestone 3
-        Parent root = FXMLLoader.load(getClass().getResource("View/welcome.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../View/welcome.fxml"));
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);
@@ -84,7 +111,7 @@ public class SignIn implements Initializable {
     }
     @FXML
     private void backHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/welcome.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../View/welcome.fxml"));
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);

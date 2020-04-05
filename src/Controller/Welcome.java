@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.ManageDataBase;
+import Model.SQLConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,24 +20,24 @@ import java.util.ResourceBundle;
 
 public class Welcome implements Initializable {
 
-    private DBManager dbManager;
+    private SQLConnection dbManager;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dbManager = DBManager.getInstance();
+        dbManager = SQLConnection.getInstance();
         FileInputStream inputstream = null;
         try {
             //inputstream = new FileInputStream("D:\\Java Workspace\\Hotel Reservation System\\src\\Hotel.jpg");
         } catch (Exception e) {
 
         }
-        Image image = new Image (inputstream);
+        //Image image = new Image (inputstream);
 
         //TODO set background
     }
 
     @FXML
     private void signInHandler (ActionEvent event) throws Exception {
-        Parent signIn_parent = FXMLLoader.load(getClass().getResource("View/signIn.fxml"));
+        Parent signIn_parent = FXMLLoader.load(getClass().getResource("../View/signIn.fxml"));
         Scene signUp_scene = new Scene(signIn_parent);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(signUp_scene);
@@ -44,7 +46,7 @@ public class Welcome implements Initializable {
 
     @FXML
     private void signUpHandler (ActionEvent event) throws Exception {
-        Parent signUp_parent = FXMLLoader.load(getClass().getResource("View/signUp.fxml"));
+        Parent signUp_parent = FXMLLoader.load(getClass().getResource("../View/signUp.fxml"));
         Scene signUp_scene = new Scene(signUp_parent);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(signUp_scene);

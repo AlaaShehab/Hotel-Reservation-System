@@ -23,8 +23,14 @@
             </font>
         </Label>
         <Button fx:id="backBtn" layoutX="400.0" layoutY="507.0" mnemonicParsing="false" onAction="#backHandler" prefHeight="31.0" prefWidth="68.0" text="Back" />
-      <Label fx:id="managerName" layoutX="411.0" layoutY="56.0" prefHeight="21.0" prefWidth="153.0" />
+      <Label fx:id="managerName" layoutX="411.0" layoutY="52.0" prefHeight="21.0" prefWidth="153.0">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
       <Label fx:id="hotelName" layoutX="69.0" layoutY="88.0" text="Hotel Name" />
-      <Label fx:id="noBranches" layoutX="228.0" layoutY="286.0" text="No Branches to show" visible="false" />
+      <Label fx:id="noBranches" layoutX="228.0" layoutY="270.0" text="No Branches to show" visible="false">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
     </children>
 </AnchorPane>
