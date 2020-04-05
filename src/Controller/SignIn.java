@@ -38,7 +38,7 @@ public class SignIn implements Initializable {
 
     @FXML
     private void signInHandler (ActionEvent event) throws Exception{
-        if (InputValidator.validEmail(email) || InputValidator.validPassword(password)) {
+        if (!InputValidator.validEmail(email) || !InputValidator.validPassword(password)) {
             PopUpMessages.errorMsg(MSG);
             return;
         }

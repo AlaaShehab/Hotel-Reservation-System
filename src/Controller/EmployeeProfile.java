@@ -72,7 +72,6 @@ public class EmployeeProfile implements Initializable {
     private void EditProfileHandler (ActionEvent event) throws Exception{
         if (!validInput()) {
             PopUpMessages.errorMsg("Wrong profile data");
-            closeWindowHandler(event);
             return;
         }
         emplyee.setFirstName(firstName.getText());
@@ -86,7 +85,6 @@ public class EmployeeProfile implements Initializable {
         ManageDataBase activity = new ManageDataBase();
         if (!activity.editEmployeeInfo(emplyee)) {
             PopUpMessages.errorMsg("Wrong profile data");
-            closeWindowHandler(event);
             return;
         }
         PopUpMessages.successMsg("Your profile was updated");
