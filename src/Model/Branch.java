@@ -92,7 +92,7 @@ public class Branch {
                 ", hotelName=" + hotelName +
                 ", hotelID=" + hotelID +
                 ", branchID=" + branchID +
-                "rating='" + rating + '\'' +
+                ", rating='" + rating + '\'' +
                 ", beach='" + beach + '\'' +
                 ", pool=" + pool +
                 ", gym=" + gym +

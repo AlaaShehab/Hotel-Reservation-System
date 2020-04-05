@@ -24,7 +24,7 @@ public class ManageDataBase {
         return true;
     }
     public boolean addEmployee(Employee employee) throws SQLException, ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = sdf.parse(employee.getStartDate());
         java.sql.Date sqlDate = new Date(date.getTime());
         PreparedStatement addBranch = SQLConnection.getInstance().getConnection().prepareStatement(
@@ -88,7 +88,7 @@ public class ManageDataBase {
             editBranch.setBoolean(8, branch.hasGarage());
             editBranch.setInt(9, branch.getBranchID());
             editBranch.setInt(10, branch.getHotelID());
-            if (editBranch.execute()) {
+            if (!editBranch.execute()) {
                 return true;
             }
         }
@@ -116,7 +116,7 @@ public class ManageDataBase {
         if (rs.next()) {
             PreparedStatement editEmployee = SQLConnection.getInstance().getConnection().prepareStatement(
                     "UPDATE Employee SET First_Name = ?, Last_Name = ?, PhoneNo = ?," +
-                            "Address = ?, password = ?;");
+                            "Address = ?, password = ?, salt = ? WHERE Emp_ID = ?;");
             editEmployee.setString(1, employee.getFirstName());
             editEmployee.setString(2, employee.getLastName());
             editEmployee.setString(3, employee.getPhoneNo());
@@ -124,6 +124,8 @@ public class ManageDataBase {
             String salt = PasswordUtils.getSalt(30);
             String securePassword = PasswordUtils.generateSecurePassword(employee.getPassword(), salt);
             editEmployee.setString(5, securePassword);
+            editEmployee.setString(6, salt);
+            editEmployee.setInt(7, employee.getEmployeeID());
             if (!editEmployee.execute()) {
                 return true;
             }
@@ -237,9 +239,14 @@ public class ManageDataBase {
             employee.setEmail(rs.getString("Email"));
             employee.setPhoneNo(rs.getString("PhoneNo"));
             employee.setStartDate(rs.getString("Start_Date"));
-            employee.setManagerID(rs.getInt("MGR_ID"));
+            if (rs.getInt("MGR_ID") == 0) {
+                employee.setManagerID(-1);
+            } else {
+                employee.setManagerID(rs.getInt("MGR_ID"));
+            }
             employee.setHotelID(rs.getInt("Hotel_ID"));
             employee.setBranchID(rs.getInt("Branch_ID"));
+            employee.setAddress(rs.getString("Address"));
             //password
             if (employee.getEmployeeID() == employee.getManagerID()) {
                 employee.setEmployeeIsManager(true);
