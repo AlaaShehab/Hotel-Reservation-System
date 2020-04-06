@@ -9,6 +9,15 @@ public class BranchInfo implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(
+                "../View/branchInfo.fxml"));
+        Parent root;
+        try {
+            root = (Parent) loader.load();
+        } catch (Exception e) {
+            System.out.println("cannot load");
+        }
     }
+
 }
