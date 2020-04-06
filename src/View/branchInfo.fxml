@@ -1,14 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.Rating?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.BranchInfo"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BranchInfo">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <BorderPane layoutX="3.0" layoutY="3.0" prefHeight="400.0" prefWidth="600.0">
+               <top>
+                  <ToolBar prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <items>
+                        <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="38.0">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/left-arrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label text="Branch Name ">
+                           <font>
+                              <Font name="Arial Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Rating prefHeight="28.0" prefWidth="122.0" />
+                        <Region prefHeight="20.0" prefWidth="126.0" />
+                        <Button mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/Edit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="26.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/trash.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </items>
+                  </ToolBar>
+               </top>
+               <center>
+                  <VBox prefHeight="329.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox prefHeight="47.0" prefWidth="600.0">
+                           <children>
+                              <Label text="Hotal Name ">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Region prefHeight="41.0" prefWidth="36.0" />
+                              <TextField />
+                              <Region prefHeight="17.0" prefWidth="49.0" />
+                              <Label prefHeight="17.0" prefWidth="83.0" text="Location ">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="43.0" prefWidth="600.0">
+                           <children>
+                              <Label text="Total Number of Reservation " />
+                              <TextField prefHeight="25.0" prefWidth="89.0" />
+                              <Region prefHeight="43.0" prefWidth="85.0" />
+                              <Label text="Total Number of Romes " />
+                              <TextField prefHeight="27.0" prefWidth="109.0" />
+                           </children>
+                        </HBox>
+                        <Label text="Facilities">
+                           <font>
+                              <Font name="Arial Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Region prefHeight="17.0" prefWidth="600.0" />
+                        <HBox prefHeight="37.0" prefWidth="600.0">
+                           <children>
+                              <ImageView fitHeight="47.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/gum.png" />
+                                 </image>
+                              </ImageView>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <Region prefHeight="100.0" prefWidth="20.0" />
+                              <ImageView fitHeight="54.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/beach.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <ImageView fitHeight="64.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/pool.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <ImageView fitHeight="61.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/spa.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <ImageView fitHeight="53.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/garage.png" />
+                                 </image>
+                              </ImageView>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <ImageView fitHeight="93.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/images.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <TableView prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn text="Emplyee" />
+                            <TableColumn prefWidth="140.0" text="Name " />
+                              <TableColumn prefWidth="119.0" text="email " />
+                              <TableColumn prefWidth="123.0" text="Start Date " />
+                              <TableColumn prefWidth="137.0" text="Phone Number" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
