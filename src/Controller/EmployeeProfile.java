@@ -8,8 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import Model.Employee;
 import javafx.stage.Stage;
@@ -95,6 +93,6 @@ public class EmployeeProfile implements Initializable {
     private boolean validInput () {
         return InputValidator.validEmail(email) && InputValidator.validPassword(password)
                 && InputValidator.validName(firstName) && InputValidator.validName(lastName)
-                && InputValidator.validateMobileNo(phone);
+                && InputValidator.validMobileNo(phone);
     }
 }

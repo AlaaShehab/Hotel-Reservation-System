@@ -130,7 +130,7 @@
                   <HBox prefHeight="66.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
                         <Region prefHeight="100.0" prefWidth="71.0" />
-                        <Button mnemonicParsing="false">
+                        <Button mnemonicParsing="false" onAction="#backHandler">
                            <graphic>
                               <ImageView fitHeight="51.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -140,7 +140,7 @@
                            </graphic>
                         </Button>
                         <Region prefHeight="39.0" prefWidth="313.0" />
-                        <Button mnemonicParsing="false">
+                        <Button mnemonicParsing="false" onAction="#editBranchHandler">
                            <graphic>
                               <ImageView fitHeight="45.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

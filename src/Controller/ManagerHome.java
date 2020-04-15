@@ -137,4 +137,8 @@ public class ManagerHome implements Initializable {
         app_stage.setScene(scene);
         app_stage.show();
     }
+
+    public Branch getSelectedBranch () {
+        return selectedBranch;
+    }
 }

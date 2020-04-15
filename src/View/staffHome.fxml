@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.StaffHome"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="anchor" prefHeight="497.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StaffHome">
+    <children>
+        <Button fx:id="bookRoom" layoutX="206.0" layoutY="103.0" mnemonicParsing="false" onAction="#bookRoomHandler" text="Book Room" />
+        <Button fx:id="addRoom" layoutX="56.0" layoutY="103.0" mnemonicParsing="false" onAction="#addRoomHandler" text="Add Room" />
+        <TableView fx:id="reservations" layoutX="54.0" layoutY="161.0" prefHeight="242.0" prefWidth="702.0">
+            <columns>
+                <TableColumn fx:id="date" editable="false" prefWidth="133.0" text="Date" />
+                <TableColumn fx:id="name" editable="false" prefWidth="127.0" text="Resv. Name" />
+            <TableColumn fx:id="mobile" prefWidth="125.0" text="Mobile Number" />
+            <TableColumn fx:id="roomNumber" prefWidth="112.0" text="Room N0" />
+            <TableColumn fx:id="checkedIn" prefWidth="96.0" text="Checked-In" />
+            <TableColumn fx:id="checkedOut" prefWidth="107.0" text="Checked-Out" />
+            </columns>
+        </TableView>
+        <Button fx:id="backBtn" layoutX="54.0" layoutY="426.0" mnemonicParsing="false" onAction="#backHandler" prefHeight="31.0" prefWidth="68.0" text="Back" />
+        <Label fx:id="noBranches" layoutX="228.0" layoutY="270.0" text="No Branches to show" visible="false">
+            <font>
+                <Font size="20.0" />
+            </font></Label>
+        <Button fx:id="editProfile" layoutX="54.0" layoutY="51.0" mnemonicParsing="false" onAction="#editProfileHandler" text="Edit Profile" />
+      <Label fx:id="hotelName" layoutX="598.0" layoutY="56.0" text="Hotel Name" />
+      <Label fx:id="location" layoutX="598.0" layoutY="103.0" text="Location" />
+      <Button fx:id="checkReservation" layoutX="329.0" layoutY="426.0" mnemonicParsing="false" text="Check Reservation" />
+      <Button fx:id="filterReservation" layoutX="351.0" layoutY="103.0" mnemonicParsing="false" onAction="#filterReservationHandler" text="Filter Reservation" />
+    </children>
 </AnchorPane>

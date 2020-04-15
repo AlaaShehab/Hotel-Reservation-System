@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FilterReservations">
+   <children>
+      <Label layoutX="133.0" layoutY="42.0" text="Check-In Date" />
+      <Label layoutX="133.0" layoutY="94.0" text="Customer Name" />
+      <Label layoutX="133.0" layoutY="150.0" text="Customer phone" />
+      <Label layoutX="133.0" layoutY="205.0" text="Customer ID" />
+      <TextField fx:id="checkIn" layoutX="272.0" layoutY="37.0" />
+      <TextField fx:id="customerName" layoutX="272.0" layoutY="89.0" />
+      <TextField fx:id="customerPhone" layoutX="272.0" layoutY="145.0" />
+      <TextField fx:id="customerID" layoutX="272.0" layoutY="200.0" />
+      <Label layoutX="133.0" layoutY="262.0" text="Room Number" />
+      <TextField fx:id="roomNumber" layoutX="272.0" layoutY="257.0" />
+      <Label layoutX="133.0" layoutY="321.0" text="Paid" />
+      <Button fx:id="filter" layoutX="496.0" layoutY="340.0" mnemonicParsing="false" onAction="#filterHandler" text="Filter" />
+      <Button fx:id="cancel" layoutX="30.0" layoutY="340.0" mnemonicParsing="false" onAction="#CancelHandler" text="Cancel" />
+      <CheckBox fx:id="paid" layoutX="272.0" layoutY="321.0" mnemonicParsing="false" />
+   </children>
+</AnchorPane>

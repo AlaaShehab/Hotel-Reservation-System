@@ -14,10 +14,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.Rating?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BranchInfo">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BranchInfo">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -25,7 +23,7 @@
                <top>
                   <ToolBar prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <items>
-                        <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="38.0">
+                        <Button mnemonicParsing="false" onAction="#backHandler" prefHeight="29.0" prefWidth="38.0">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -39,9 +37,8 @@
                               <Font name="Arial Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Rating prefHeight="28.0" prefWidth="122.0" />
                         <Region prefHeight="20.0" prefWidth="126.0" />
-                        <Button mnemonicParsing="false">
+                        <Button mnemonicParsing="false" onAction="#addEmplHandler">
                            <graphic>
                               <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -73,14 +70,14 @@
                                  </font>
                               </Label>
                               <Region prefHeight="41.0" prefWidth="36.0" />
-                              <TextField />
+                              <TextField fx:id="hotelName" />
                               <Region prefHeight="17.0" prefWidth="49.0" />
                               <Label prefHeight="17.0" prefWidth="83.0" text="Location ">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <TextField />
+                              <TextField fx:id="branchLocation" />
                            </children>
                         </HBox>
                         <HBox prefHeight="43.0" prefWidth="600.0">
@@ -139,13 +136,13 @@
                               <Region prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="employeeTable" prefHeight="200.0" prefWidth="600.0">
                           <columns>
-                            <TableColumn text="Emplyee" />
-                            <TableColumn prefWidth="140.0" text="Name " />
-                              <TableColumn prefWidth="119.0" text="email " />
-                              <TableColumn prefWidth="123.0" text="Start Date " />
-                              <TableColumn prefWidth="137.0" text="Phone Number" />
+                            <TableColumn fx:id="empID" text="Emplyee" />
+                            <TableColumn fx:id="empName" prefWidth="140.0" text="Name " />
+                              <TableColumn fx:id="email" prefWidth="119.0" text="email " />
+                              <TableColumn fx:id="startDate" prefWidth="123.0" text="Start Date " />
+                              <TableColumn fx:id="phoneNumber" prefWidth="137.0" text="Phone Number" />
                           </columns>
                         </TableView>
                      </children>
