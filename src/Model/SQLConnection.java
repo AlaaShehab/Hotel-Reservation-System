@@ -1,13 +1,11 @@
-package Model;
-
 import java.sql.*;
 
 public class SQLConnection {
     private static Connection connection = null;
-    private static String databaseName=  "hotel reservation system";
+    private static String databaseName=  "Hotel Reservation System";
     private static String databaseURL=  "jdbc:mysql://127.0.0.1:3306/"+databaseName;
     private static String userName = "root";
-    private static String password = "";
+    private static String password = "password";
     private static SQLConnection connect;
 
     private SQLConnection() {

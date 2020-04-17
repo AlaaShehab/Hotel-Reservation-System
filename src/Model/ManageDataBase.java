@@ -1,8 +1,3 @@
-package Model;
-
-import Model.Branch;
-import Model.SQLConnection;
-
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +18,17 @@ public class ManageDataBase {
         addBranch.setBoolean(8, branch.hasCarRental());
         addBranch.setBoolean(9, branch.hasBeach());
         addBranch.setBoolean(10, branch.hasGarage());
+        PreparedStatement addBranchLocation = SQLConnection.getInstance().getConnection().prepareStatement(
+                "INSERT INTO Location VALUES (?,?,?,?,?);");
+        addBranchLocation.setInt(1, branch.getBranchID());
+        addBranchLocation.setInt(2, branch.getHotelID());
+        addBranchLocation.setString(3, branch.getCountry());
+        addBranchLocation.setString(4, branch.getCity());
+        addBranchLocation.setInt(5, branch.getPostalCode());
         if(addBranch.executeUpdate() == -1){
+            return false;
+        }
+        if(addBranchLocation.executeUpdate() == -1){
             return false;
         }
         return true;
@@ -59,7 +64,7 @@ public class ManageDataBase {
         return true;
     }
     public Branch getBranchInfo(int hotelID, int branchID){
-        String query = "SELECT * FROM Hotel NATURAL JOIN Branch " +
+        String query = "SELECT * FROM Hotel NATURAL JOIN Branch NATURAL JOIN Location " +
                 "WHERE Hotel_ID = "+ hotelID +" and Branch_ID = "+
                 branchID + ";";
         ResultSet rs = null;
@@ -229,7 +234,9 @@ public class ManageDataBase {
             branch.setGym(rs.getBoolean("GYM"));
             branch.setPool(rs.getBoolean("POOL"));
             branch.setSpa(rs.getBoolean("SPA"));
-            branch.setLocation(rs.getString("City"));
+            branch.setCity(rs.getString("City"));
+            branch.setCountry(rs.getString("Country"));
+            branch.setPostalCode(rs.getInt("Postal_Code"));
             return branch;
         } catch(Exception e){
             System.out.println(e);
@@ -258,6 +265,20 @@ public class ManageDataBase {
                 employee.setEmployeeIsManager(true);
             }
             return employee;
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+    public Branch getBranchByEmpID(int empID){
+        String query = "SELECT * FROM Employee, Hotel, Branch, Location " +
+                "WHERE Emp_ID = "+ empID + ";";
+        ResultSet rs = null;
+        try {
+            rs = SQLConnection.getInstance().getData(query);
+            rs.next();
+            Branch branch = constructBranch(rs);
+            return branch;
         } catch(Exception e){
             System.out.println(e);
         }

@@ -1,4 +1,3 @@
-
 public class Branch {
     private int branchID;
     private int hotelID;
@@ -11,7 +10,9 @@ public class Branch {
     private boolean beach;
     private boolean pool;
     private String hotelName;
-    private String location;
+    private String city;
+    private String country;
+    private int postalCode;
 
     public void setBranchID(int id) {
         branchID = id;
@@ -79,17 +80,29 @@ public class Branch {
     public String getHotelName() {
         return hotelName;
     }
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
     }
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public String getCountry() {
+        return country;
+    }
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    public int getPostalCode() {
+        return postalCode;
+    }
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
     }
 
     @Override
     public String toString() {
         return "Branch{" +
-                ", hotelName=" + hotelName +
+                "hotelName=" + hotelName +
                 ", hotelID=" + hotelID +
                 ", branchID=" + branchID +
                 ", rating='" + rating + '\'' +
@@ -100,6 +113,9 @@ public class Branch {
                 ", spa=" + spa +
                 ", carRental=" + carRental +
                 ", managerID=" + managerID +
+                ", city=" + city +
+                ", country=" + country +
+                ", postal code=" + postalCode +
                 '}';
     }
 }
