@@ -147,5 +147,6 @@ public class InputValidator {
         if(!matcher.find() || !matcher.group().equals(number.getText())){
             return false;
         }
+        return true;
     }
 }

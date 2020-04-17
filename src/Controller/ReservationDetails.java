@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.ManageDataBase;
+import Model.ManageReservation;
 import Model.Reservation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 public class ReservationDetails implements Initializable {
@@ -42,10 +45,11 @@ public class ReservationDetails implements Initializable {
             reservation = getAvailableRoomsController().getReservation();
         }
 
-        checkInDate.setText(reservation.getCheckInDate());
-        checkOutDate.setText(reservation.getCheckOutDate());
-        reservationID.setText(reservation.getReservationID());
-        customerID.setText(reservation.getCustomerID());
+        checkInDate.setText(reservation.getCheckINDate());
+        checkOutDate.setText(reservation.getCheckOUTDate());
+        reservationID.setText(String.valueOf(reservation.getResrvationID()));
+        //TODO get user by ID and get room price
+        customerID.setText(String.valueOf(reservation.getUserID()));
         customerName.setText(reservation.getCustomerName());
         customerPhone.setText(reservation.getCustomerPhone());
         roomPrice.setText(reservation.getRoomPrice());
@@ -91,10 +95,10 @@ public class ReservationDetails implements Initializable {
         app_stage.show();
     }
 
-    public void cancelReservationHandler(ActionEvent actionEvent) throws IOException {
-        ManageDataBase activity = new ManageDataBase();
-        boolean refunded = activity.cancellationISRefunded(reservation.getID());
-        if (!activity.cancelReservation(reservation.getID())) {
+    public void cancelReservationHandler(ActionEvent actionEvent) throws IOException, ParseException {
+        ManageReservation manageReservation = new ManageReservation();
+        boolean refunded = manageReservation.checkRefund(reservation.getResrvationID());
+        if (!manageReservation.cancelReservation(reservation.getResrvationID())) {
             PopUpMessages.errorMsg("Could not cancel reservation");
             return;
         }
@@ -107,27 +111,28 @@ public class ReservationDetails implements Initializable {
         backHandler(actionEvent);
     }
 
-    public void saveReservationHandler(ActionEvent actionEvent) throws IOException {
+    public void saveReservationHandler(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
         if (!InputValidator.validDate(checkInDate)
                 || !InputValidator.validDate(checkOutDate)
                 || !InputValidator.validMobileNo(customerPhone)
-                || customerName.getText().isEmpty()) {
+                || customerName.getText().isEmpty()
+                || InputValidator.validInteger(roomNumber)) {
             PopUpMessages.errorMsg("Invalid Reservation!");
             return;
         }
         Reservation newReservation = new Reservation();
-        newReservation.setCheckInDate(checkInDate.getText());
-        newReservation.setCheckOutDate(checkOutDate.getText());
-        newReservation.setReservationID(Integer.parseInt(reservationID.getText()));
-        newReservation.setCustomerID(customerID.getText());
-        newReservation.setCustomerName(customerName.getText());
-        newReservation.setCustomerPhone(customerPhone.getText());
-        newReservation.setRoomPrice(Integer.parseInt(roomPrice.getText()));
-        newReservation.setRoomNumber(roomNumber.getText());
-        newReservation.isPaid(alreadyPaid);
+        newReservation.setCheckINDate(checkInDate.getText());
+        newReservation.setCheckOUTDate(checkOutDate.getText());
+        newReservation.setResrvationID(Integer.parseInt(reservationID.getText()));
+        newReservation.setUserID(Integer.parseInt(customerID.getText()));
+//        newReservation.setCustomerName(customerName.getText());
+//        newReservation.setCustomerPhone(customerPhone.getText());
+//        newReservation.setRoomPrice(Integer.parseInt(roomPrice.getText()));
+        newReservation.setRoomNO(Integer.parseInt(roomNumber.getText()));
+        newReservation.setPaid(alreadyPaid);
 
-        ManageDataBase activity = new ManageDataBase();
-        if (activity.addReservation(reservation)) {
+        ManageReservation manageReservation = new ManageReservation();
+        if (manageReservation.addReservation(reservation)) {
             PopUpMessages.errorMsg("Could not reserve the room!");
             return;
         }

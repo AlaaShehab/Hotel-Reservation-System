@@ -13,7 +13,7 @@
         <Button fx:id="addRoom" layoutX="56.0" layoutY="103.0" mnemonicParsing="false" onAction="#addRoomHandler" text="Add Room" />
         <TableView fx:id="reservations" layoutX="54.0" layoutY="161.0" prefHeight="242.0" prefWidth="702.0">
             <columns>
-                <TableColumn fx:id="date" editable="false" prefWidth="133.0" text="Date" />
+                <TableColumn fx:id="reservationID" editable="false" prefWidth="133.0" text="Reserv.ID" />
                 <TableColumn fx:id="name" editable="false" prefWidth="127.0" text="Resv. Name" />
             <TableColumn fx:id="mobile" prefWidth="125.0" text="Mobile Number" />
             <TableColumn fx:id="roomNumber" prefWidth="112.0" text="Room N0" />

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.ManageDataBase;
+import Model.ManageRoom;
 import Model.Room;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -40,7 +42,7 @@ public class AddRoom implements Initializable {
         app_stage.show();
     }
 
-    public void addRoomHandler(ActionEvent actionEvent) {
+    public void addRoomHandler(ActionEvent actionEvent) throws SQLException {
         if (type.getText().isEmpty() || view.getText().isEmpty()
                 || !InputValidator.validInteger(roomNumber)
                 || !InputValidator.validInteger(numberOfBathrooms)
@@ -50,16 +52,16 @@ public class AddRoom implements Initializable {
             PopUpMessages.errorMsg("Invalid Room properties!");
         }
         Room room = new Room();
-        room.setView(view.getText());
-        room.setType(type.getText());
-        room.setRoomNumber(Integer.parseInt(roomNumber.getText()));
-        room.setFloorNumber(Integer.parseInt(floorNumber.getText()));
+        room.setRoomView(view.getText());
+        room.setRoomType(type.getText());
+        room.setRoomNO(Integer.parseInt(roomNumber.getText()));
+        room.setFloorNO(Integer.parseInt(floorNumber.getText()));
         room.setPrice(Integer.parseInt(price.getText()));
-        room.setNumberOfBeds(Integer.parseInt(numberOfBeds.getText()));
-        room.setNumberOfBathrooms(Integer.parseInt(numberOfBathrooms.getText()));
+        room.setBedsNO(Integer.parseInt(numberOfBeds.getText()));
+        room.setBathRoomNO(Integer.parseInt(numberOfBathrooms.getText()));
 
-        ManageDataBase activity = new ManageDataBase();
-        if (!activity.addRoom(room)) {
+        ManageRoom manageRoom = new ManageRoom();
+        if (!manageRoom.addRoom(room)) {
             PopUpMessages.errorMsg("Could not add room!");
         }
         PopUpMessages.successMsg("Room added Successfully!");

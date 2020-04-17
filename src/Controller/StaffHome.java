@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Branch;
-import Model.Employee;
-import Model.ManageDataBase;
-import Model.Reservation;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,7 +29,7 @@ import java.util.ResourceBundle;
 public class StaffHome implements Initializable {
 
     @FXML private TableView reservations;
-    @FXML private TableColumn date;
+    @FXML private TableColumn reservationID;
     @FXML private TableColumn name;
     @FXML private TableColumn mobile;
     @FXML private TableColumn roomNumber;
@@ -62,19 +59,21 @@ public class StaffHome implements Initializable {
         init();
     }
     private void init () {
-        date.setCellValueFactory(new PropertyValueFactory<Reservation, String>("date"));
+        //TODO backend need method to get employee name and mobile number
+        reservationID.setCellValueFactory(new PropertyValueFactory<Reservation, String>("reservationID"));
         name.setCellValueFactory(new PropertyValueFactory<Reservation, String>("name"));
         mobile.setCellValueFactory(new PropertyValueFactory<Reservation, String>("mobile"));
-        roomNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNumber"));
-        checkedIn.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkedIn"));
-        checkedOut.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkedOut"));
+        roomNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNo"));
+        checkedIn.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkINDate"));
+        checkedOut.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkOUTDate"));
 
         ManageDataBase activity = new ManageDataBase();
-        Branch branch = activity.getStaffBranch(employee.getEmployeeID());
+        Branch branch = activity.getBranchByEmpID(employee.getEmployeeID());
         hotelName.setText(branch.getHotelName());
-        location.setText(branch.getLocation());
+        location.setText(branch.getCity());
 
-        reservedRooms = activity.getReservationsToday();
+        ReservationSearch reservationSearch = new ReservationSearch();
+        reservedRooms = reservationSearch.getReservationsOfToday();
         refresh();
         checkReservation.setOnAction(new CheckReservationListener());
     }
@@ -91,7 +90,6 @@ public class StaffHome implements Initializable {
     private class CheckReservationListener implements EventHandler {
         @Override
         public void handle(Event event){
-            //TODO handle if no item is selected (i.e. ix is out of range)
             int ix = reservations.getSelectionModel().getSelectedIndex();
             if (ix < 0) {
                 PopUpMessages.errorMsg("Please select a valid reservation");
@@ -116,7 +114,7 @@ public class StaffHome implements Initializable {
         return selectedReservation;
     }
 
-    public Reservation setSelectedReservation (Reservation selectedReservation) {
+    public void setSelectedReservation (Reservation selectedReservation) {
         this.selectedReservation = selectedReservation;
     }
 

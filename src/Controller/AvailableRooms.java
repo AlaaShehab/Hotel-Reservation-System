@@ -70,7 +70,7 @@ public class AvailableRooms implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<Reservation, String>("price"));
 
         ManageDataBase activity = new ManageDataBase();
-        roomList = activity.getRoomsInBranch(employee.getBranchID());
+        roomList = activity.getRoomsInBranch(employee.getHotelID(), employee.getBranchID());
         refresh();
         bookRoom.setOnAction(new BookRoomListener());
     }
@@ -152,16 +152,16 @@ public class AvailableRooms implements Initializable {
     }
 
     private void createReservation(Room room) {
-        reservation.setCheckInDate(checkInDate);
-        reservation.setCheckOutDate(checkOutDate);
-        reservation.setReservationID(Math.random());
-        reservation.setCustomerID("");
-        reservation.setCustomerName("");
-        reservation.setCustomerPhone("");
-        reservation.setRoomPrice(room.getPrice());
-        reservation.setRoomNumber(room.getNumber());
+        reservation.setCheckINDate(checkInDate);
+        reservation.setCheckOUTDate(checkOutDate);
+        reservation.setResrvationID((int)Math.random());
+        reservation.setUserID(0);
+//        reservation.setCustomerName("");
+//        reservation.setCustomerPhone("");
+//        reservation.setRoomPrice(room.getPrice());
+        reservation.setRoomNO(room.getRoomNO());
         reservation.setBranchID(room.getBranchID());
-        reservation.isPaid(false);
+        reservation.setPaid(false);
     }
 
     public void setReservation(Reservation reservation) {
