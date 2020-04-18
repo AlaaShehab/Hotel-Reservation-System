@@ -1,14 +1,16 @@
 public class Room {
-    private int roomNO;
-    private int hotelID;
-    private int branchID;
-    private int floorNO;
-    private int bedsNO;
-    private int bathRoomNO;
-    private double price;
-    private String roomType;
-    private String roomView;
+    private int roomNO = -1;
+    private int hotelID  = -1;
+    private int branchID = -1;
+    private int floorNO = -1;
+    private int bedsNO = -1;
+    private int bathRoomNO = -1;
+    private double price = -1;
+    private String roomType = "";
+    private String roomView = "";
     private boolean isReserved;
+    private int minPrice = -1;
+    private int maxPrice = -1;
 
     public int getRoomNO() {
         return roomNO;
@@ -88,6 +90,22 @@ public class Room {
 
     public void setReserved(boolean reserved) {
         isReserved = reserved;
+    }
+
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
     }
 
     @Override
