@@ -112,7 +112,7 @@ public class InputValidator {
     public static boolean validPriceRange(TextField minPrice, TextField maxPrice) {
         Pattern p = Pattern.compile("[0-9]*");
         Matcher matcher = p.matcher(minPrice.getText());
-        if(!matcher.find() || !matcher.group().equals(maxPrice.getText())){
+        if(!matcher.find() || !matcher.group().equals(minPrice.getText())){
             return false;
         }
         matcher = p.matcher(maxPrice.getText());

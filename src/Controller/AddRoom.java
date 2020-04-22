@@ -74,6 +74,7 @@ public class AddRoom implements Initializable {
         room.setBathRoomNO(Integer.parseInt(numberOfBathrooms.getText()));
         room.setHotelID(employee.getHotelID());
         room.setBranchID(employee.getBranchID());
+        room.setReserved(false);
 
         ManageRoom manageRoom = new ManageRoom();
         if (!manageRoom.addRoom(room)) {

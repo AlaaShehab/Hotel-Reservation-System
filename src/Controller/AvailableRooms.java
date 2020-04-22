@@ -44,8 +44,8 @@ public class AvailableRooms implements Initializable {
     private static List<Room> roomList;
     private static Reservation reservation;
 
-    private String checkInDate = "";
-    private String checkOutDate = "";
+    private static String checkInDate = "";
+    private static String checkOutDate = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
