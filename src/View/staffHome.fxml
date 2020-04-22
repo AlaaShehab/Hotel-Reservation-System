@@ -9,8 +9,6 @@
 
 <AnchorPane fx:id="anchor" prefHeight="497.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StaffHome">
     <children>
-        <Button fx:id="bookRoom" layoutX="206.0" layoutY="103.0" mnemonicParsing="false" onAction="#bookRoomHandler" text="Book Room" />
-        <Button fx:id="addRoom" layoutX="56.0" layoutY="103.0" mnemonicParsing="false" onAction="#addRoomHandler" text="Add Room" />
         <TableView fx:id="reservations" layoutX="54.0" layoutY="161.0" prefHeight="242.0" prefWidth="702.0">
             <columns>
                 <TableColumn fx:id="reservationID" editable="false" prefWidth="133.0" text="Reserv.ID" />
@@ -21,15 +19,27 @@
             <TableColumn fx:id="checkedOut" prefWidth="107.0" text="Checked-Out" />
             </columns>
         </TableView>
+        <Button fx:id="bookRoom" layoutX="206.0" layoutY="103.0" mnemonicParsing="false" onAction="#bookRoomHandler" text="Book Room" />
+        <Button fx:id="addRoom" layoutX="56.0" layoutY="103.0" mnemonicParsing="false" onAction="#addRoomHandler" text="Add Room" />
         <Button fx:id="backBtn" layoutX="54.0" layoutY="426.0" mnemonicParsing="false" onAction="#backHandler" prefHeight="31.0" prefWidth="68.0" text="Back" />
         <Label fx:id="noBranches" layoutX="228.0" layoutY="270.0" text="No Branches to show" visible="false">
             <font>
                 <Font size="20.0" />
             </font></Label>
         <Button fx:id="editProfile" layoutX="54.0" layoutY="51.0" mnemonicParsing="false" onAction="#editProfileHandler" text="Edit Profile" />
-      <Label fx:id="hotelName" layoutX="598.0" layoutY="56.0" text="Hotel Name" />
-      <Label fx:id="location" layoutX="598.0" layoutY="103.0" text="Location" />
+      <Label fx:id="hotelName" layoutX="663.0" layoutY="58.0" text="Hotel Name" />
+      <Label fx:id="location" layoutX="663.0" layoutY="93.0" text="Location" />
       <Button fx:id="checkReservation" layoutX="329.0" layoutY="426.0" mnemonicParsing="false" text="Check Reservation" />
       <Button fx:id="filterReservation" layoutX="351.0" layoutY="103.0" mnemonicParsing="false" onAction="#filterReservationHandler" text="Filter Reservation" />
+      <Label layoutX="558.0" layoutY="56.0" text="Hotel Name :">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="558.0" layoutY="91.0" text="Location :">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

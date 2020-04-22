@@ -59,18 +59,19 @@ public class StaffHome implements Initializable {
         init();
     }
     private void init () {
-        //TODO backend need method to get employee name and mobile number
         reservationID.setCellValueFactory(new PropertyValueFactory<Reservation, String>("reservationID"));
-        name.setCellValueFactory(new PropertyValueFactory<Reservation, String>("name"));
-        mobile.setCellValueFactory(new PropertyValueFactory<Reservation, String>("mobile"));
-        roomNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNo"));
+        roomNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNO"));
         checkedIn.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkINDate"));
         checkedOut.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkOUTDate"));
+
+        //TODO milestone 3
+//        name.setCellValueFactory(new PropertyValueFactory<Reservation, String>("userName"));
+//        mobile.setCellValueFactory(new PropertyValueFactory<Reservation, String>("userPhone"));
 
         ManageDataBase activity = new ManageDataBase();
         Branch branch = activity.getBranchByEmpID(employee.getEmployeeID());
         hotelName.setText(branch.getHotelName());
-        location.setText(branch.getCity());
+        location.setText(branch.getCountry());
 
         ReservationSearch reservationSearch = new ReservationSearch();
         reservedRooms = reservationSearch.getReservationsOfToday();
@@ -118,7 +119,12 @@ public class StaffHome implements Initializable {
         this.selectedReservation = selectedReservation;
     }
 
-    public void bookRoomHandler(ActionEvent actionEvent) {
+    public void bookRoomHandler(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/availableRooms.fxml"));
+        Scene scene = new Scene(root);
+        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        app_stage.setScene(scene);
+        app_stage.show();
     }
 
     public void addRoomHandler(ActionEvent actionEvent) throws IOException {

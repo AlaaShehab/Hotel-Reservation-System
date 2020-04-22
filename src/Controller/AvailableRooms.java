@@ -21,8 +21,11 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class AvailableRooms implements Initializable {
@@ -38,8 +41,8 @@ public class AvailableRooms implements Initializable {
 
     @FXML private Button bookRoom;
     private static Employee employee;
-    private List<Room> roomList;
-    private Reservation reservation;
+    private static List<Room> roomList;
+    private static Reservation reservation;
 
     private String checkInDate = "";
     private String checkOutDate = "";
@@ -58,19 +61,23 @@ public class AvailableRooms implements Initializable {
 
         SignIn signInController = loader.getController();
         employee = signInController.getEmployee();
-        init();
+        try {
+            init();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
-    private void init () {
-        roomNumber.setCellValueFactory(new PropertyValueFactory<Room, String>("roomNumber"));
-        floorNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("floorNumber"));
-        numberOfBeds.setCellValueFactory(new PropertyValueFactory<Reservation, String>("numberOfBeds"));
-        type.setCellValueFactory(new PropertyValueFactory<Reservation, String>("type"));
-        view.setCellValueFactory(new PropertyValueFactory<Reservation, String>("view"));
-        numberOfBathrooms.setCellValueFactory(new PropertyValueFactory<Reservation, String>("numberOfBathrooms"));
+    private void init () throws ParseException {
+        roomNumber.setCellValueFactory(new PropertyValueFactory<Room, String>("roomNO"));
+        floorNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("floorNO"));
+        numberOfBeds.setCellValueFactory(new PropertyValueFactory<Reservation, String>("bedsNO"));
+        type.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomType"));
+        view.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomView"));
+        numberOfBathrooms.setCellValueFactory(new PropertyValueFactory<Reservation, String>("bathRoomNO"));
         price.setCellValueFactory(new PropertyValueFactory<Reservation, String>("price"));
 
-        ManageDataBase activity = new ManageDataBase();
-        roomList = activity.getRoomsInBranch(employee.getHotelID(), employee.getBranchID());
+        RoomSearch roomSearch = new RoomSearch();
+        roomList = roomSearch.getAvailableRooms(employee.getHotelID(), employee.getBranchID(), "", 1);
         refresh();
         bookRoom.setOnAction(new BookRoomListener());
     }
@@ -136,7 +143,6 @@ public class AvailableRooms implements Initializable {
             }
             Room room = (Room) rooms.getSelectionModel().getSelectedItem();
             createReservation(room);
-            setReservation(reservation);
 
             Parent root = null;
             try {
@@ -152,15 +158,17 @@ public class AvailableRooms implements Initializable {
     }
 
     private void createReservation(Room room) {
+        Random random = new Random();
+        reservation = new Reservation();
         reservation.setCheckINDate(checkInDate);
         reservation.setCheckOUTDate(checkOutDate);
-        reservation.setResrvationID((int)Math.random());
+        reservation.setReservationID(random.nextInt(100));
         reservation.setUserID(0);
 //        reservation.setCustomerName("");
 //        reservation.setCustomerPhone("");
-//        reservation.setRoomPrice(room.getPrice());
         reservation.setRoomNO(room.getRoomNO());
         reservation.setBranchID(room.getBranchID());
+        reservation.setHotelID(room.getHotelID());
         reservation.setPaid(false);
     }
 

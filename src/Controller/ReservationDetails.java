@@ -1,8 +1,8 @@
 package Controller;
 
-import Model.ManageDataBase;
 import Model.ManageReservation;
 import Model.Reservation;
+import Model.RoomSearch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +36,7 @@ public class ReservationDetails implements Initializable {
 
     private Reservation reservation;
     private boolean alreadyReserved = true;
-    private boolean alreadyPaid = true;
+    private static boolean alreadyPaid = true;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         reservation = getStaffHomeController().getSelectedReservation();
@@ -47,13 +47,16 @@ public class ReservationDetails implements Initializable {
 
         checkInDate.setText(reservation.getCheckINDate());
         checkOutDate.setText(reservation.getCheckOUTDate());
-        reservationID.setText(String.valueOf(reservation.getResrvationID()));
-        //TODO get user by ID and get room price
+        reservationID.setText(String.valueOf(reservation.getReservationID()));
+        //TODO get user by ID milestone 3
         customerID.setText(String.valueOf(reservation.getUserID()));
-        customerName.setText(reservation.getCustomerName());
-        customerPhone.setText(reservation.getCustomerPhone());
-        roomPrice.setText(reservation.getRoomPrice());
-        roomNumber.setText(reservation.getRoomNumber());
+        customerName.setText("");
+        customerPhone.setText("");
+        RoomSearch roomSearch = new RoomSearch();
+        roomPrice.setText(String.valueOf(
+                roomSearch.
+                        getRoomPrice(reservation.getRoomNO(), reservation.getHotelID(), reservation.getBranchID())));
+        roomNumber.setText(String.valueOf(reservation.getRoomNO()));
 
         customerName.setDisable(alreadyReserved);
         customerID.setDisable(alreadyReserved);
@@ -97,8 +100,8 @@ public class ReservationDetails implements Initializable {
 
     public void cancelReservationHandler(ActionEvent actionEvent) throws IOException, ParseException {
         ManageReservation manageReservation = new ManageReservation();
-        boolean refunded = manageReservation.checkRefund(reservation.getResrvationID());
-        if (!manageReservation.cancelReservation(reservation.getResrvationID())) {
+        boolean refunded = manageReservation.checkRefund(reservation.getReservationID());
+        if (!manageReservation.cancelReservation(reservation.getReservationID())) {
             PopUpMessages.errorMsg("Could not cancel reservation");
             return;
         }
@@ -115,26 +118,34 @@ public class ReservationDetails implements Initializable {
         if (!InputValidator.validDate(checkInDate)
                 || !InputValidator.validDate(checkOutDate)
                 || !InputValidator.validMobileNo(customerPhone)
-                || customerName.getText().isEmpty()
-                || InputValidator.validInteger(roomNumber)) {
+                || (customerName.getText().isEmpty() && !alreadyReserved)
+                || !InputValidator.validInteger(roomNumber)) {
             PopUpMessages.errorMsg("Invalid Reservation!");
             return;
         }
         Reservation newReservation = new Reservation();
         newReservation.setCheckINDate(checkInDate.getText());
         newReservation.setCheckOUTDate(checkOutDate.getText());
-        newReservation.setResrvationID(Integer.parseInt(reservationID.getText()));
+        newReservation.setReservationID(Integer.parseInt(reservationID.getText()));
         newReservation.setUserID(Integer.parseInt(customerID.getText()));
 //        newReservation.setCustomerName(customerName.getText());
 //        newReservation.setCustomerPhone(customerPhone.getText());
-//        newReservation.setRoomPrice(Integer.parseInt(roomPrice.getText()));
         newReservation.setRoomNO(Integer.parseInt(roomNumber.getText()));
         newReservation.setPaid(alreadyPaid);
+        newReservation.setHotelID(reservation.getHotelID());
+        newReservation.setBranchID(reservation.getBranchID());
 
         ManageReservation manageReservation = new ManageReservation();
-        if (manageReservation.addReservation(reservation)) {
-            PopUpMessages.errorMsg("Could not reserve the room!");
-            return;
+        if (alreadyReserved) {
+            if (!manageReservation.editReservationInfo(newReservation)) {
+                PopUpMessages.errorMsg("Could not edit reserved room!");
+                return;
+            }
+        } else {
+            if (!manageReservation.addReservation(newReservation)) {
+                PopUpMessages.errorMsg("Could not reserve the room!");
+                return;
+            }
         }
 
         PopUpMessages.successMsg("Room reserved successfully!");

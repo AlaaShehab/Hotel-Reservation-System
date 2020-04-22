@@ -1,12 +1,13 @@
 package Controller;
 
-import Model.ManageDataBase;
+import Model.Employee;
 import Model.Room;
 import Model.RoomSearch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -29,9 +30,21 @@ public class FilterRooms implements Initializable {
     @FXML private TextField minPrice;
     @FXML private TextField maxPrice;
 
+    private Employee employee;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(
+                "../View/signIn.fxml"));
+        Parent root;
+        try {
+            root = (Parent) loader.load();
+        } catch (Exception e) {
+            System.out.println("cannot load");
+        }
 
+        SignIn signInController = loader.getController();
+        employee = signInController.getEmployee();
     }
 
     public void backHandler(ActionEvent actionEvent) {
@@ -40,36 +53,39 @@ public class FilterRooms implements Initializable {
     }
 
     public void filterHandler(ActionEvent actionEvent) throws IOException {
-        if (!InputValidator.validDate(checkInDate)
-                || !InputValidator.validDate(checkOutDate)
+        if ((!InputValidator.validDate(checkInDate) && !checkInDate.getText().isEmpty())
+                || (!InputValidator.validDate(checkOutDate) && !checkOutDate.getText().isEmpty())
                 || !InputValidator.validPriceRange(minPrice, maxPrice)
                 || !InputValidator.validDateRange(checkInDate, checkOutDate)
                 || !InputValidator.validFilterNumber(numberOfBathrooms)
                 || !InputValidator.validFilterNumber(numberOfBeds)) {
             PopUpMessages.errorMsg("Invalid Filter");
         }
-        RoomSearch roomSearch = new RoomSearch();
-        roomSearch.setCheckInDate(checkInDate.getText());
-        roomSearch.setCheckOutDate(checkOutDate.getText());
-        roomSearch.setMinPrice(minPrice.getText().isEmpty()
+        Room room = new Room();
+        //TODO
+//        roomSearch.setCheckinDate(checkInDate.getText());
+//        roomSearch.setCheckOutDate(checkOutDate.getText());
+        room.setMinPrice(minPrice.getText().isEmpty()
                 ? -1
                 : Integer.parseInt(minPrice.getText()));
-        roomSearch.setMaxPrice(maxPrice.getText().isEmpty()
-                ? Integer.MIN_VALUE
+        room.setMaxPrice(maxPrice.getText().isEmpty()
+                ? -1
                 : Integer.parseInt(maxPrice.getText()));
-        roomSearch.setType(type.getText());
-        roomSearch.setView(view.getText());
-        roomSearch.setNumberOfBeds(
+        room.setRoomType(type.getText());
+        room.setRoomView(view.getText());
+        room.setBedsNO(
                 numberOfBeds.getText().isEmpty()
-                        ? Integer.MAX_VALUE
+                        ? -1
                         : Integer.parseInt(numberOfBeds.getText()));
-        roomSearch.setNumberOfBathrooms(
+        room.setBathRoomNO(
                 numberOfBathrooms.getText().isEmpty()
-                        ? Integer.MAX_VALUE
+                        ? -1
                         : Integer.parseInt(numberOfBathrooms.getText()));
+        room.setBranchID(employee.getBranchID());
+        room.setHotelID(employee.getHotelID());
 
-        ManageDataBase activity = new ManageDataBase();
-        List<Room> searchedRooms = activity.getRooms(roomSearch);
+        RoomSearch filterRooms = new RoomSearch();
+        List<Room> searchedRooms = filterRooms.filterRooms(room);
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(

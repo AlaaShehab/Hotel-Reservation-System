@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Employee;
 import Model.ManageDataBase;
 import Model.ManageRoom;
 import Model.Room;
@@ -29,9 +30,21 @@ public class AddRoom implements Initializable {
     @FXML private TextField view;
     @FXML private TextField price;
 
+    private Employee employee;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(
+                "../View/signIn.fxml"));
+        Parent root;
+        try {
+            root = (Parent) loader.load();
+        } catch (Exception e) {
+            System.out.println("cannot load");
+        }
 
+        SignIn signInController = loader.getController();
+        employee = signInController.getEmployee();
     }
 
     public void backHandler(ActionEvent actionEvent) throws IOException {
@@ -59,6 +72,8 @@ public class AddRoom implements Initializable {
         room.setPrice(Integer.parseInt(price.getText()));
         room.setBedsNO(Integer.parseInt(numberOfBeds.getText()));
         room.setBathRoomNO(Integer.parseInt(numberOfBathrooms.getText()));
+        room.setHotelID(employee.getHotelID());
+        room.setBranchID(employee.getBranchID());
 
         ManageRoom manageRoom = new ManageRoom();
         if (!manageRoom.addRoom(room)) {

@@ -62,7 +62,7 @@ public class InputValidator {
     }
 
     static boolean validDate(TextField date){
-        Pattern p = Pattern.compile("(0[1-9]|[12]\\d|3[01])\\/(0[1-9]|1[0-2])\\/(2020)");
+        Pattern p = Pattern.compile("(2020)-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])");
         Matcher m = p.matcher(date.getText());
         if(m.find() && m.group().equals(date.getText())){
             return true;
@@ -130,11 +130,14 @@ public class InputValidator {
     }
 
     public static boolean validDateRange(TextField checkInDate, TextField checkOutDate) {
-        String[] checkIn = checkInDate.getText().split("/");
-        String[] checkOut = checkOutDate.getText().split("/");
+        if (checkInDate.getText().isEmpty() || checkOutDate.getText().isEmpty()) {
+            return true;
+        }
+        String[] checkIn = checkInDate.getText().split("-");
+        String[] checkOut = checkOutDate.getText().split("-");
 
         if ((Integer.parseInt(checkIn[1]) == Integer.parseInt(checkOut[1])
-                && Integer.parseInt(checkIn[0]) > Integer.parseInt(checkOut[0]))
+                && Integer.parseInt(checkIn[2]) > Integer.parseInt(checkOut[2]))
                 || Integer.parseInt(checkIn[1]) > Integer.parseInt(checkOut[1])) {
             return false;
         }

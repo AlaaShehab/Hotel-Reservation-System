@@ -59,7 +59,13 @@ public class EmployeeProfile implements Initializable {
 
     @FXML
     private void closeWindowHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
+        String pageToLoad = "";
+        if (emplyee.isManager()) {
+            pageToLoad = "../View/managerHome.fxml";
+        } else {
+            pageToLoad = "../View/staffHome.fxml";
+        }
+        Parent root = FXMLLoader.load(getClass().getResource(pageToLoad));
         Scene scene = new Scene(root);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(scene);

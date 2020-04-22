@@ -40,7 +40,7 @@ public class BranchInfo implements Initializable {
         branch = managerHomeController.getSelectedBranch();
 
         hotelName.setText("Birnando");
-        branchLocation.setText(branch.getLocation());
+        branchLocation.setText(branch.getCity());
     }
     @FXML
     private void addEmplHandler (ActionEvent event) throws Exception{

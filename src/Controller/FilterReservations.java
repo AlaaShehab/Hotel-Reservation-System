@@ -15,6 +15,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,16 +37,16 @@ public class FilterReservations implements Initializable {
             PopUpMessages.errorMsg("Invalid date");
         }
         Reservation reservation = new Reservation();
-        reservation.setCheckIn(checkIn);
-        reservation.setCustomerName(customerName);
-        reservation.setCustomerPhone(customerPhone);
-        reservation.setCustomerID(customerID);
-        reservation.setRoomNumber(roomNumber);
+        reservation.setCheckINDate(checkIn.getText());
+//        reservation.setCustomerName(customerName);
+//        reservation.setCustomerPhone(customerPhone);
+        reservation.setUserID(Integer.parseInt(customerID.getText()));
+        reservation.setRoomNO(Integer.parseInt(roomNumber.getText()));
         reservation.setPaid(paid.isSelected());
 
         ManageDataBase activity = new ManageDataBase();
-        List<Reservation> reservedRooms = activity.getReservations(reservation);
-
+        //List<Reservation> reservedRooms = activity.getReservations(reservation);
+        List<Reservation> reservedRooms = new ArrayList<>();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(
                 "../View/staffHome.fxml"));
