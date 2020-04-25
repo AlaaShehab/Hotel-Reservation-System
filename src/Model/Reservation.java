@@ -1,12 +1,16 @@
 public class Reservation {
-    private int reservationID;
-    private int hotelID;
-    private int branchID;
-    private int userID;
-    private int roomNO;
-    private String checkINDate;
-    private String checkOUTDate;
-    private boolean isPaid;
+    private int reservationID = -1;
+    private int hotelID = -1;
+    private int branchID = -1;
+    private int userID = -1;
+    private int roomNO = -1;
+    private String checkINDate = "";
+    private String checkOUTDate = "";
+    private boolean isPaid = false;
+    private String userEmail = "";
+    private String userFN = "";
+    private String userLN = "";
+    private String phoneNO = "";
 
     public int getResrvationID() {
         return reservationID;
@@ -71,6 +75,39 @@ public class Reservation {
     public void setPaid(boolean paid) {
         isPaid = paid;
     }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserFN() {
+        return userFN;
+    }
+
+    public void setUserFN(String userFN) {
+        this.userFN = userFN;
+    }
+
+    public String getUserLN() {
+        return userLN;
+    }
+
+    public void setUserLN(String userLN) {
+        this.userLN = userLN;
+    }
+
+    public String getPhoneNO() {
+        return phoneNO;
+    }
+
+    public void setPhoneNO(String phoneNO) {
+        this.phoneNO = phoneNO;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +

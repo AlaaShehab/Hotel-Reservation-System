@@ -117,7 +117,32 @@ public class ReservationSearch {
         }
         return null;
     }
-
+    public ArrayList<Reservation> filterReservations (Reservation reservation){
+        String query = "SELECT * FROM Reservation NATURAL JOIN User " +
+                "WHERE Hotel_ID = "+ reservation.getHotelID()+" AND Branch_ID = "
+                + reservation.getBranchID();
+        if (!reservation.getUserEmail().isEmpty())
+            query += " AND Email='"+reservation.getUserEmail()+"'";
+        if(!reservation.getUserFN().isEmpty() && !reservation.getUserLN().isEmpty())
+            query += " AND First_Name = '" + reservation.getUserFN() +"' AND Last_Name = '"+reservation.getUserLN()+"'";
+        if(!reservation.getPhoneNO().isEmpty())
+            query += " AND PhoneNo = " + reservation.getPhoneNO();
+        if (reservation.getRoomNO() != -1)
+            query += " AND Room_No = " + reservation.getRoomNO();
+        if (!reservation.getCheckINDate().isEmpty())
+            query += " AND Check_IN = '" + reservation.getCheckINDate() +"'";
+        query += ";";
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        try {
+            ResultSet rs = SQLConnection.getInstance().getData(query);
+            while (rs.next()) {
+                reservations.add(constructReservation(rs));
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return reservations;
+    }
     private Reservation constructReservation(ResultSet rs){
         Reservation reservation = new Reservation();
         try {

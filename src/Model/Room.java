@@ -11,6 +11,8 @@ public class Room {
     private boolean isReserved;
     private int minPrice = -1;
     private int maxPrice = -1;
+    private String checkINdate = "";
+    private String checkOUTdate = "";
 
     public int getRoomNO() {
         return roomNO;
@@ -106,6 +108,22 @@ public class Room {
 
     public void setMaxPrice(int maxPrice) {
         this.maxPrice = maxPrice;
+    }
+
+    public String getCheckINdate() {
+        return checkINdate;
+    }
+
+    public void setCheckINdate(String checkINdate) {
+        this.checkINdate = checkINdate;
+    }
+
+    public String getCheckOUTdate() {
+        return checkOUTdate;
+    }
+
+    public void setCheckOUTdate(String checkOUTdate) {
+        this.checkOUTdate = checkOUTdate;
     }
 
     @Override
