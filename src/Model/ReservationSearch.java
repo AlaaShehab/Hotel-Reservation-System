@@ -1,3 +1,5 @@
+package Model;
+
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -123,14 +125,17 @@ public class ReservationSearch {
                 + reservation.getBranchID();
         if (!reservation.getUserEmail().isEmpty())
             query += " AND Email='"+reservation.getUserEmail()+"'";
-        if(!reservation.getUserFN().isEmpty() && !reservation.getUserLN().isEmpty())
-            query += " AND First_Name = '" + reservation.getUserFN() +"' AND Last_Name = '"+reservation.getUserLN()+"'";
+        if(!reservation.getUserFN().isEmpty())
+            query += " AND First_Name = '" + reservation.getUserFN();
+        if(!reservation.getUserLN().isEmpty())
+            query += "' AND Last_Name = '"+reservation.getUserLN()+"'";
         if(!reservation.getPhoneNO().isEmpty())
             query += " AND PhoneNo = " + reservation.getPhoneNO();
         if (reservation.getRoomNO() != -1)
             query += " AND Room_No = " + reservation.getRoomNO();
         if (!reservation.getCheckINDate().isEmpty())
             query += " AND Check_IN = '" + reservation.getCheckINDate() +"'";
+        query += " AND Paid = " + reservation.isPaid();
         query += ";";
         ArrayList<Reservation> reservations = new ArrayList<>();
         try {
@@ -146,7 +151,7 @@ public class ReservationSearch {
     private Reservation constructReservation(ResultSet rs){
         Reservation reservation = new Reservation();
         try {
-            reservation.setResrvationID(rs.getInt("Reservation_ID"));
+            reservation.setReservationID(rs.getInt("Reservation_ID"));
             reservation.setBranchID(rs.getInt("Branch_ID"));
             reservation.setHotelID(rs.getInt("Hotel_ID"));
             reservation.setUserID(rs.getInt("User_ID"));

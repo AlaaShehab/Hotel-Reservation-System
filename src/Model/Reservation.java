@@ -1,3 +1,5 @@
+package Model;
+
 public class Reservation {
     private int reservationID = -1;
     private int hotelID = -1;
@@ -12,12 +14,12 @@ public class Reservation {
     private String userLN = "";
     private String phoneNO = "";
 
-    public int getResrvationID() {
+    public int getReservationID() {
         return reservationID;
     }
 
-    public void setResrvationID(int resrvationID) {
-        this.reservationID = resrvationID;
+    public void setReservationID(int reservationID) {
+        this.reservationID = reservationID;
     }
 
     public int getHotelID() {

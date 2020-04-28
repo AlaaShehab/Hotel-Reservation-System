@@ -21,10 +21,6 @@ public class AddBranch implements Initializable {
 
     @FXML
     private void backHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/managerHome.fxml", event);
     }
 }

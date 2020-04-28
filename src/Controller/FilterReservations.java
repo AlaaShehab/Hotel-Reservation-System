@@ -1,7 +1,9 @@
 package Controller;
 
+import Model.Employee;
 import Model.ManageDataBase;
 import Model.Reservation;
+import Model.ReservationSearch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,26 +29,47 @@ public class FilterReservations implements Initializable {
     @FXML TextField customerID;
     @FXML TextField roomNumber;
     @FXML CheckBox paid;
+
+    private Employee employee;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(
+                "../View/signIn.fxml"));
+        Parent root;
+        try {
+            root = (Parent) loader.load();
+        } catch (Exception e) {
+            System.out.println("cannot load");
+        }
 
+        SignIn signInController = ControllerOperations.getController("../View/signIn.fxml");
+        employee = signInController.getEmployee();
     }
 
     public void filterHandler(ActionEvent actionEvent) throws IOException {
-        if (!InputValidator.validDate(checkIn)) {
+        if (!InputValidator.validDate(checkIn) && !checkIn.getText().isEmpty()) {
             PopUpMessages.errorMsg("Invalid date");
         }
         Reservation reservation = new Reservation();
         reservation.setCheckINDate(checkIn.getText());
-//        reservation.setCustomerName(customerName);
-//        reservation.setCustomerPhone(customerPhone);
-        reservation.setUserID(Integer.parseInt(customerID.getText()));
-        reservation.setRoomNO(Integer.parseInt(roomNumber.getText()));
+        reservation.setUserLN(customerName.getText());
+        reservation.setPhoneNO(customerPhone.getText());
+        reservation.setUserID(
+                customerID.getText().isEmpty()
+                        ? -1
+                        : Integer.parseInt(customerID.getText()));
+        reservation.setRoomNO(
+                roomNumber.getText().isEmpty()
+                        ? -1
+                        : Integer.parseInt(roomNumber.getText()));
         reservation.setPaid(paid.isSelected());
+        reservation.setHotelID(employee.getHotelID());
+        reservation.setBranchID(employee.getBranchID());
 
-        ManageDataBase activity = new ManageDataBase();
-        //List<Reservation> reservedRooms = activity.getReservations(reservation);
-        List<Reservation> reservedRooms = new ArrayList<>();
+        ReservationSearch search = new ReservationSearch();
+        List<Reservation> reservedRooms = search.filterReservations(reservation);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(
                 "../View/staffHome.fxml"));

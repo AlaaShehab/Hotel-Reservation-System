@@ -1,3 +1,7 @@
+package Model;
+
+import Model.SQLConnection;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;;
 

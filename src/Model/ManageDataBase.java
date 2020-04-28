@@ -1,3 +1,5 @@
+package Model;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +35,7 @@ public class ManageDataBase {
         }
         return true;
     }
+
     public boolean addEmployee(Employee employee) throws SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = sdf.parse(employee.getStartDate());
@@ -63,6 +66,7 @@ public class ManageDataBase {
         }
         return true;
     }
+
     public Branch getBranchInfo(int hotelID, int branchID){
         String query = "SELECT * FROM Hotel NATURAL JOIN Branch NATURAL JOIN Location " +
                 "WHERE Hotel_ID = "+ hotelID +" and Branch_ID = "+
@@ -78,6 +82,7 @@ public class ManageDataBase {
         }
         return null;
     }
+
     public boolean editBranchInfo(Branch branch) throws SQLException {
         PreparedStatement checkBranch = SQLConnection.getInstance().getConnection().prepareStatement(
                 "SELECT * FROM Hotel NATURAL JOIN Branch WHERE Branch_ID = ? and Hotel_ID = ?;");
@@ -104,6 +109,7 @@ public class ManageDataBase {
         }
         return false;
     }
+
     public Employee getEmployeeInfo(int empID){
         String query = "SELECT * FROM Employee " +
                 "WHERE Emp_ID = "+ empID + ";";
@@ -118,6 +124,7 @@ public class ManageDataBase {
         }
         return null;
     }
+
     public boolean editEmployeeInfo(Employee employee) throws SQLException {
         PreparedStatement checkEmployee = SQLConnection.getInstance().getConnection().prepareStatement(
                 "SELECT * FROM Employee WHERE Emp_ID = ?;");
@@ -142,6 +149,7 @@ public class ManageDataBase {
         }
         return false;
     }
+
     public Employee signIN(String email, String password) throws SQLException {
         PreparedStatement checkEmployee = SQLConnection.getInstance().getConnection().prepareStatement(
                 "SELECT * FROM Employee WHERE Email = ?;");
@@ -156,6 +164,7 @@ public class ManageDataBase {
         }
         return null;
     }
+
     public boolean removeEmployee(int empID){
         try {
             Statement stat = SQLConnection.getInstance().getConnection().createStatement();
@@ -169,6 +178,7 @@ public class ManageDataBase {
 
         return true;
     }
+
     public boolean removeBranch(int hotelID, int branchID){
         try {
             Statement stat = SQLConnection.getInstance().getConnection().createStatement();
@@ -182,6 +192,7 @@ public class ManageDataBase {
         }
         return true;
     }
+
     public ArrayList<Branch> getHotelBranches(int hotelID){
         String query = "SELECT * FROM Hotel NATURAL JOIN Branch " +
                 "WHERE Hotel_ID = " + hotelID +";";

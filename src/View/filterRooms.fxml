@@ -5,10 +5,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="477.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FilterRooms">
+<AnchorPane prefHeight="524.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FilterRooms">
     <children>
-        <Button fx:id="back" layoutX="63.0" layoutY="390.0" mnemonicParsing="false" onAction="#backHandler" text="Back" />
-        <Button fx:id="filter" layoutX="274.0" layoutY="390.0" mnemonicParsing="false" onAction="#filterHandler" text="Filter" />
+        <Button fx:id="back" layoutX="63.0" layoutY="463.0" mnemonicParsing="false" onAction="#backHandler" text="Back" />
+        <Button fx:id="filter" layoutX="473.0" layoutY="463.0" mnemonicParsing="false" onAction="#filterHandler" text="Filter" />
         <Label layoutX="63.0" layoutY="45.0" text="Check In date" />
         <Label layoutX="339.0" layoutY="45.0" text="Check out date" />
         <Label layoutX="63.0" layoutY="123.0" text="Number of Beds" />
@@ -25,5 +25,9 @@
         <Label layoutX="341.0" layoutY="288.0" text="Max Price" />
         <TextField fx:id="minPrice" layoutX="63.0" layoutY="317.0" />
         <TextField fx:id="maxPrice" layoutX="337.0" layoutY="317.0" />
+      <TextField fx:id="hotelName" disable="true" layoutX="63.0" layoutY="398.0" />
+      <TextField fx:id="hotelCity" disable="true" layoutX="337.0" layoutY="398.0" />
+      <Label fx:id="hotelNameLabel" layoutX="64.0" layoutY="370.0" text="Hotel Name" />
+      <Label fx:id="cityLabel" layoutX="341.0" layoutY="370.0" text="City" />
     </children>
 </AnchorPane>

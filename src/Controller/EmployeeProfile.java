@@ -25,23 +25,12 @@ public class EmployeeProfile implements Initializable {
     @FXML private TextField address;
     @FXML private TextField startDate;
 
-    private FXMLLoader loader;
     private SignIn signInController;
     private static Employee emplyee;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/signIn.fxml"));
-        Parent root;
-        try {
-            root = (Parent) loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-
-        signInController = loader.getController();
+        signInController = ControllerOperations.getController("../View/signIn.fxml");
         emplyee = signInController.getEmployee();
 
         init();
@@ -59,17 +48,10 @@ public class EmployeeProfile implements Initializable {
 
     @FXML
     private void closeWindowHandler (ActionEvent event) throws Exception{
-        String pageToLoad = "";
-        if (emplyee.isManager()) {
-            pageToLoad = "../View/managerHome.fxml";
-        } else {
-            pageToLoad = "../View/staffHome.fxml";
-        }
-        Parent root = FXMLLoader.load(getClass().getResource(pageToLoad));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage(
+                emplyee.isManager()
+                        ? "../View/managerHome.fxml"
+                        : "../View/staffHome.fxml", event);
     }
 
     @FXML

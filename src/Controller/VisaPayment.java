@@ -22,7 +22,7 @@ public class VisaPayment {
     }
 
     @FXML
-    private void verifyHanlder (ActionEvent event) throws Exception{
+    private void verifyHandler(ActionEvent event) throws Exception{
 
         if (!InputValidator.validCardNumber(credircardNo)
                 || !InputValidator.validCVV(securityNo)
@@ -30,11 +30,8 @@ public class VisaPayment {
             PopUpMessages.errorMsg("Invalid Card Details!");
             return;
         }
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/reservationDetails.fxml"));
-        loader.load();
-        ReservationDetails controller = loader.getController();
+
+        ReservationDetails controller = ControllerOperations.getController("../View/reservationDetails.fxml");
         controller.setAlreadyPaid(true);
 
         PopUpMessages.successMsg("Payment is Success!");

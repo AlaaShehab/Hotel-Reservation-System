@@ -1,3 +1,5 @@
+package Model;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -5,6 +7,9 @@ import java.time.LocalDate;
 
 public class ManageReservation {
     public boolean addReservation(Reservation reservation) throws SQLException, ParseException {
+        Statement stat = SQLConnection.getInstance().getConnection().createStatement();
+        String query = "SET FOREIGN_KEY_CHECKS=0;";
+        stat.executeUpdate(query);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date checkINdate = sdf.parse(reservation.getCheckINDate());
         java.sql.Date sqlDateIN = new Date(checkINdate.getTime());
@@ -12,7 +17,7 @@ public class ManageReservation {
         java.sql.Date sqlDateOUT = new Date(checkOUTdate.getTime());
         PreparedStatement addReservation = SQLConnection.getInstance().getConnection().prepareStatement(
                 "INSERT INTO Reservation VALUES (?,?,?,?,?,?,?,?);");
-        addReservation.setInt(1, reservation.getResrvationID());
+        addReservation.setInt(1, reservation.getReservationID());
         addReservation.setInt(2, reservation.getHotelID());
         addReservation.setInt(3, reservation.getBranchID());
         addReservation.setInt(4, reservation.getRoomNO());
@@ -41,7 +46,7 @@ public class ManageReservation {
     public boolean editReservationInfo(Reservation reservation) throws SQLException {
         PreparedStatement checkReservation = SQLConnection.getInstance().getConnection().prepareStatement(
                 "SELECT * FROM Reservation WHERE Reservation_ID = ?;");
-        checkReservation.setInt(1, reservation.getResrvationID());
+        checkReservation.setInt(1, reservation.getReservationID());
         ResultSet rs = checkReservation.executeQuery();
         if (rs.next()) {
             PreparedStatement editReservation = SQLConnection.getInstance().getConnection().prepareStatement(
@@ -50,7 +55,7 @@ public class ManageReservation {
             editReservation.setString(2, reservation.getCheckINDate());
             editReservation.setString(3, reservation.getCheckOUTDate());
             editReservation.setBoolean(4, reservation.isPaid());
-            editReservation.setInt(5, reservation.getResrvationID());
+            editReservation.setInt(5, reservation.getReservationID());
             if (!editReservation.execute()) {
                 return true;
             }

@@ -38,29 +38,25 @@ public class AvailableRooms implements Initializable {
     @FXML private TableColumn view;
     @FXML private TableColumn numberOfBathrooms;
     @FXML private TableColumn price;
+    @FXML private TableColumn hotelName;
+    @FXML private TableColumn hotelCity;
 
     @FXML private Button bookRoom;
     private static Employee employee;
+    private static User user;
     private static List<Room> roomList;
     private static Reservation reservation;
 
-    private static String checkInDate = "";
-    private static String checkOutDate = "";
+    private static boolean userActivity = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/signIn.fxml"));
-        Parent root;
-        try {
-            root = (Parent) loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-
-        SignIn signInController = loader.getController();
+        SignIn signInController = ControllerOperations.getController("../View/signIn.fxml");
         employee = signInController.getEmployee();
+        if (employee == null) {
+            user = signInController.getUser();
+            userActivity = true;
+        }
         try {
             init();
         } catch (ParseException e) {
@@ -68,16 +64,22 @@ public class AvailableRooms implements Initializable {
         }
     }
     private void init () throws ParseException {
-        roomNumber.setCellValueFactory(new PropertyValueFactory<Room, String>("roomNO"));
-        floorNumber.setCellValueFactory(new PropertyValueFactory<Reservation, String>("floorNO"));
-        numberOfBeds.setCellValueFactory(new PropertyValueFactory<Reservation, String>("bedsNO"));
-        type.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomType"));
-        view.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomView"));
-        numberOfBathrooms.setCellValueFactory(new PropertyValueFactory<Reservation, String>("bathRoomNO"));
-        price.setCellValueFactory(new PropertyValueFactory<Reservation, String>("price"));
+        roomNumber.setCellValueFactory(new PropertyValueFactory<Room, Integer>("roomNO"));
+        floorNumber.setCellValueFactory(new PropertyValueFactory<Room, Integer>("floorNO"));
+        numberOfBeds.setCellValueFactory(new PropertyValueFactory<Room, Integer>("bedsNO"));
+        type.setCellValueFactory(new PropertyValueFactory<Room, String>("roomType"));
+        view.setCellValueFactory(new PropertyValueFactory<Room, String>("roomView"));
+        numberOfBathrooms.setCellValueFactory(new PropertyValueFactory<Room, Integer>("bathRoomNO"));
+        price.setCellValueFactory(new PropertyValueFactory<Room, Integer>("price"));
+        hotelName.setCellValueFactory(new PropertyValueFactory<Room, String>("hotelName"));
+        hotelCity.setCellValueFactory(new PropertyValueFactory<Room, String>("hotelCity"));
 
-        RoomSearch roomSearch = new RoomSearch();
-        roomList = roomSearch.getAvailableRooms(employee.getHotelID(), employee.getBranchID(), "", 1);
+        if (userActivity) {
+            roomList = ((UserHome) ControllerOperations.getController("../View/userHome.fxml")).getSearchedRooms();
+        } else {
+            RoomSearch roomSearch = new RoomSearch();
+            roomList = roomSearch.getAvailableRooms(employee.getHotelID(), employee.getBranchID(), "", 1);
+        }
         refresh();
         bookRoom.setOnAction(new BookRoomListener());
     }
@@ -102,27 +104,7 @@ public class AvailableRooms implements Initializable {
     }
 
     public void backHandler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/staffHome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
-    }
-
-    public String getCheckInDate() {
-        return checkInDate;
-    }
-
-    public void setCheckInDate(String checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public String getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public void setCheckOutDate(String checkOutDate) {
-        this.checkOutDate = checkOutDate;
+        ControllerOperations.loadPage(userActivity ? "../View/userHome.fxml" : "../View/staffHome.fxml", actionEvent);
     }
 
     private class CloseFilterListener implements EventHandler<WindowEvent> {
@@ -144,28 +126,23 @@ public class AvailableRooms implements Initializable {
             Room room = (Room) rooms.getSelectionModel().getSelectedItem();
             createReservation(room);
 
-            Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("../View/reservationDetails.fxml"));
+                ControllerOperations.loadPage("../View/reservationDetails.fxml", event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Scene scene = new Scene(root);
-            Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            app_stage.setScene(scene);
-            app_stage.show();
         }
     }
 
     private void createReservation(Room room) {
         Random random = new Random();
         reservation = new Reservation();
-        reservation.setCheckINDate(checkInDate);
-        reservation.setCheckOUTDate(checkOutDate);
+        reservation.setCheckINDate(room.getCheckINdate());
+        reservation.setCheckOUTDate(room.getCheckOUTdate());
         reservation.setReservationID(random.nextInt(100));
-        reservation.setUserID(0);
-//        reservation.setCustomerName("");
-//        reservation.setCustomerPhone("");
+        reservation.setUserID(user == null ? 1 : user.getUserID());
+        reservation.setUserLN(user == null ? "" : user.getLastName());
+        reservation.setUserPhoneNumber(user == null ? "" : user.getPhoneNumber());
         reservation.setRoomNO(room.getRoomNO());
         reservation.setBranchID(room.getBranchID());
         reservation.setHotelID(room.getHotelID());
@@ -185,5 +162,9 @@ public class AvailableRooms implements Initializable {
 
     public void setRooms (List<Room> roomList) {
         this.roomList = roomList;
+    }
+
+    public boolean getUserActivity () {
+        return userActivity;
     }
 }

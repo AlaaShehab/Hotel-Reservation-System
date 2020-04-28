@@ -39,63 +39,50 @@ public class ReservationDetails implements Initializable {
     private static boolean alreadyPaid = true;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        reservation = getStaffHomeController().getSelectedReservation();
+        boolean userActivity = false;
+        reservation = ((StaffHome)ControllerOperations
+                .getController("../View/staffHome.fxml"))
+                .getSelectedReservation();
         if (reservation == null) {
             alreadyReserved = false;
-            reservation = getAvailableRoomsController().getReservation();
+            AvailableRooms controller = ControllerOperations
+                    .getController("../View/availableRooms.fxml");
+            reservation = controller.getReservation();
+            userActivity = controller.getUserActivity();
+        }
+
+        if (reservation == null) {
+            reservation = ((UserReservations)ControllerOperations
+                    .getController("../View/userReservations.fxml"))
+                    .getSelectedReservation();
+            userActivity = true;
         }
 
         checkInDate.setText(reservation.getCheckINDate());
         checkOutDate.setText(reservation.getCheckOUTDate());
         reservationID.setText(String.valueOf(reservation.getReservationID()));
-        //TODO get user by ID milestone 3
         customerID.setText(String.valueOf(reservation.getUserID()));
-        customerName.setText("");
-        customerPhone.setText("");
+        customerName.setText(reservation.getUserLN());
+        customerPhone.setText(reservation.getUserPhoneNumber());
         RoomSearch roomSearch = new RoomSearch();
         roomPrice.setText(String.valueOf(
                 roomSearch.
                         getRoomPrice(reservation.getRoomNO(), reservation.getHotelID(), reservation.getBranchID())));
         roomNumber.setText(String.valueOf(reservation.getRoomNO()));
 
-        customerName.setDisable(alreadyReserved);
-        customerID.setDisable(alreadyReserved);
+        customerName.setDisable(alreadyReserved || userActivity);
+        customerID.setDisable(alreadyReserved || userActivity);
         cancelReservation.setVisible(alreadyReserved);
         pay.setVisible(!reservation.isPaid());
 
         alreadyPaid = reservation.isPaid();
     }
-    private StaffHome getStaffHomeController () {
-        FXMLLoader loader = getLoader("../View/staffHome.fxml");
-        return loader.getController();
-    }
-
-    private AvailableRooms getAvailableRoomsController () {
-        FXMLLoader loader = getLoader("../View/availableRooms.fxml");
-        return loader.getController();
-    }
-
-    private FXMLLoader getLoader (String controller) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(controller));
-        try {
-            loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-        return loader;
-    }
 
     public void backHandler(ActionEvent actionEvent) throws IOException {
-        getStaffHomeController().setSelectedReservation(null);
-        Parent root = FXMLLoader.load(getClass().getResource(
-                alreadyReserved ?
-                        "../View/staffHome.fxml" :
-                        "../View/availableRooms.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage(alreadyReserved ?
+                "../View/staffHome.fxml" :
+                "../View/availableRooms.fxml",
+                actionEvent);
     }
 
     public void cancelReservationHandler(ActionEvent actionEvent) throws IOException, ParseException {
@@ -128,8 +115,8 @@ public class ReservationDetails implements Initializable {
         newReservation.setCheckOUTDate(checkOutDate.getText());
         newReservation.setReservationID(Integer.parseInt(reservationID.getText()));
         newReservation.setUserID(Integer.parseInt(customerID.getText()));
-//        newReservation.setCustomerName(customerName.getText());
-//        newReservation.setCustomerPhone(customerPhone.getText());
+        newReservation.setUserLN(customerName.getText());
+        newReservation.setUserPhone(customerPhone.getText());
         newReservation.setRoomNO(Integer.parseInt(roomNumber.getText()));
         newReservation.setPaid(alreadyPaid);
         newReservation.setHotelID(reservation.getHotelID());

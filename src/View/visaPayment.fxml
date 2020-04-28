@@ -14,7 +14,7 @@
         <TextField fx:id="securityNo" layoutX="251.0" layoutY="187.0" />
         <TextField fx:id="expDate" layoutX="251.0" layoutY="248.0" />
         <Button fx:id="closeBtn" layoutX="420.0" layoutY="332.0" mnemonicParsing="false" onAction="#closeWindowHandler" text="Cancel" />
-        <Button fx:id="verifyBtn" layoutX="503.0" layoutY="332.0" mnemonicParsing="false" onAction="#verifyHanlder" text="Verify" />
+        <Button fx:id="verifyBtn" layoutX="503.0" layoutY="332.0" mnemonicParsing="false" onAction="#verifyHandler" text="Verify" />
         <Label layoutX="106.0" layoutY="52.0" text="Please Enter your creditcard details" />
         <Label layoutX="274.0" layoutY="298.0" text="Incorrect Information" textFill="#ee0404" visible="false" />
     </children>

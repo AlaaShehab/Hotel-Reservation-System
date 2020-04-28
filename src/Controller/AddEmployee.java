@@ -35,16 +35,6 @@ public class AddEmployee implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/addEmployee.fxml"));
-        Parent root;
-        try {
-            root = (Parent) loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-
     }
     @FXML
     private void submitNewEmployee() throws SQLException, ParseException {
@@ -52,18 +42,13 @@ public class AddEmployee implements Initializable {
         e.setFirstName(firstName.toString());
         e.setLastName(lastName.toString());
         e.setPassword(password.toString());
-        //ToDo Email Validation
         e.setEmail(email.toString());
         e.setPhoneNo(phoneNumber.toString());
         mDB.addEmployee(e);
     }
     @FXML
     private void goBackToHomePage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/managerHome.fxml", event);
     }
 
 }

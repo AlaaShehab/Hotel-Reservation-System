@@ -5,16 +5,10 @@ import Model.ManageDataBase;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,46 +57,31 @@ public class SignIn implements Initializable {
             return;
         }
         setEmployee(employee);
-        Parent root = null;
         if (employee.isManager()) {
-            root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
+            ControllerOperations.loadPage("../View/managerHome.fxml", event);
         } else {
-            root = FXMLLoader.load(getClass().getResource("../View/staffHome.fxml"));
+            ControllerOperations.loadPage("../View/staffHome.fxml", event);
         }
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
     }
 
     private void loginUser (ActionEvent event) throws IOException {
-        ManageDataBase activity = new ManageDataBase();
+        UserActivity activity = new UserActivity();
         User user = null;
-        //TODO milestone 3
-//        try {
-//            user = activity.signIN(email.getText(), password.getText())
-//        } catch (SQLException e) {
-//            errorMsg();
-//        }
+        try {
+            user = activity.signIN(email.getText(), password.getText());
+        } catch (SQLException e) {
+            PopUpMessages.errorMsg(MSG);
+        }
         if (user == null) {
             PopUpMessages.errorMsg(MSG);
             return;
         }
         setUser(user);
-        //TODO edit in milestone 3
-        Parent root = FXMLLoader.load(getClass().getResource("../View/welcome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/userHome.fxml", event);
     }
     @FXML
     private void backHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/welcome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/welcome.fxml", event);
     }
 
     public User getUser () {

@@ -1,3 +1,5 @@
+package Model;
+
 public class Room {
     private int roomNO = -1;
     private int hotelID  = -1;

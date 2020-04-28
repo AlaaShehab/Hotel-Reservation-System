@@ -1,3 +1,5 @@
+package Model;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -140,6 +142,7 @@ public class RoomSearch {
         }
         return null;
     }
+
     public ArrayList<Room> getAvailableRooms(int hotelID, int branchID, String checkINdate, int resPeriod) throws ParseException {
         java.sql.Date sqlCurrDate;
         if(checkINdate == null || checkINdate.isEmpty()){
@@ -193,9 +196,25 @@ public class RoomSearch {
         String newDate = sdf.format(c.getTime());
         return newDate;
     }
+
     public ArrayList<Room> filterRooms(Room room) throws ParseException {
         String query = "SELECT * FROM Room where Room_No NOT IN (SELECT Room_No FROM Room natural join reservation" +
                 " where Hotel_ID = "+room.getHotelID()+" and Branch_ID = "+room.getBranchID();
+        if(!room.getCheckINdate().isEmpty() && !room.getCheckOUTdate().isEmpty()){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date checkINdate = sdf.parse(room.getCheckINdate());
+            java.sql.Date sqlDateIN = new Date(checkINdate.getTime());
+            java.util.Date checkOUTdate = sdf.parse(room.getCheckOUTdate());
+            java.sql.Date sqlDateOUT = new Date(checkOUTdate.getTime());
+            if(sqlDateIN.after(sqlDateOUT)){
+                System.out.println("Enter Dates Correctly!");
+                return null;
+            }
+            query += " and ((Check_IN between '"+room.getCheckINdate() +"' and '"+room.getCheckOUTdate()
+                    +"') or (Check_OUT between Check_IN and '"+room.getCheckOUTdate()+"')))";
+        }else{
+            query += ")";
+        }
         if (room.getMinPrice() != -1 && room.getMaxPrice()==-1)
             query += " and Price BETWEEN "+room.getMinPrice()+" AND "+room.getMaxPrice();
         if(room.getBedsNO() != -1)
@@ -208,20 +227,8 @@ public class RoomSearch {
             query += " and Type='"+room.getRoomType()+"'";
         if (!room.getRoomView().isEmpty())
             query += " and View='"+room.getRoomView()+"'";
-        if(!room.getCheckINdate().isEmpty() && !room.getCheckOUTdate().isEmpty()){
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date checkINdate = sdf.parse(room.getCheckINdate());
-            java.sql.Date sqlDateIN = new Date(checkINdate.getTime());
-            java.util.Date checkOUTdate = sdf.parse(room.getCheckOUTdate());
-            java.sql.Date sqlDateOUT = new Date(checkOUTdate.getTime());
-            if(sqlDateIN.after(sqlDateOUT)){
-                System.out.println("Enter Dates Correctly!");
-                return null;
-            }
-            query += " and ((Check_IN between '"+room.getCheckINdate() +"' and '"+room.getCheckOUTdate()
-                    +"') or (Check_OUT between Check_IN and '"+room.getCheckOUTdate()+"'))";
-        }
-        query += ") and Hotel_ID = "+room.getHotelID()+" and Branch_ID = " +room.getBranchID()+";";
+
+        query += " and Hotel_ID = "+room.getHotelID()+" and Branch_ID = " +room.getBranchID()+";";
         ArrayList<Room> rooms = new ArrayList<>();
         try {
             ResultSet rs = SQLConnection.getInstance().getData(query);

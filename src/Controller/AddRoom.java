@@ -33,26 +33,12 @@ public class AddRoom implements Initializable {
     private Employee employee;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/signIn.fxml"));
-        Parent root;
-        try {
-            root = (Parent) loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-
-        SignIn signInController = loader.getController();
+        SignIn signInController = ControllerOperations.getController("../View/signIn.fxml");
         employee = signInController.getEmployee();
     }
 
     public void backHandler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/staffHome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/staffHome.fxml", actionEvent);
     }
 
     public void addRoomHandler(ActionEvent actionEvent) throws SQLException {

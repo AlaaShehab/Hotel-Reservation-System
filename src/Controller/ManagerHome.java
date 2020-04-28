@@ -41,17 +41,7 @@ public class ManagerHome implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/signIn.fxml"));
-        Parent root;
-        try {
-            root = (Parent) loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-
-        SignIn signInController = loader.getController();
+        SignIn signInController = ControllerOperations.getController("../View/signIn.fxml");
         employee = signInController.getEmployee();
         init();
     }
@@ -90,11 +80,7 @@ public class ManagerHome implements Initializable {
 
     @FXML
     private void backHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/managerHome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/managerHome.fxml", event);
     }
 
     private class CheckBranchListener implements EventHandler {
@@ -108,34 +94,20 @@ public class ManagerHome implements Initializable {
             }
             Branch branch = (Branch) branches.getSelectionModel().getSelectedItem();
             selectedBranch = branch;
-
-            Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("../View/branchInfo.fxml"));
+                ControllerOperations.loadPage("../View/branchInfo.fxml", event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Scene scene = new Scene(root);
-            Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            app_stage.setScene(scene);
-            app_stage.show();
         }
     }
     @FXML
     private void addBranchHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/addBranch.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/addBranch.fxml", event);
     }
     @FXML
     private void editProfileHandler (ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/employeeProfile.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/employeeProfile.fxml", event);
     }
 
     public Branch getSelectedBranch () {

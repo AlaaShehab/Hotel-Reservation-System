@@ -40,21 +40,11 @@ public class StaffHome implements Initializable {
     @FXML Button checkReservation;
     private static Employee employee;
     private static Reservation selectedReservation;
-    List<Reservation> reservedRooms;
+    private static List<Reservation> reservedRooms;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(
-                "../View/signIn.fxml"));
-        Parent root;
-        try {
-            root = (Parent) loader.load();
-        } catch (Exception e) {
-            System.out.println("cannot load");
-        }
-
-        SignIn signInController = loader.getController();
+        SignIn signInController = ControllerOperations.getController("../View/signIn.fxml");
         employee = signInController.getEmployee();
         init();
     }
@@ -65,7 +55,7 @@ public class StaffHome implements Initializable {
         checkedOut.setCellValueFactory(new PropertyValueFactory<Reservation, String>("checkOUTDate"));
 
         //TODO milestone 3
-//        name.setCellValueFactory(new PropertyValueFactory<Reservation, String>("userName"));
+        name.setCellValueFactory(new PropertyValueFactory<Reservation, String>("userName"));
 //        mobile.setCellValueFactory(new PropertyValueFactory<Reservation, String>("userPhone"));
 
         ManageDataBase activity = new ManageDataBase();
@@ -99,16 +89,11 @@ public class StaffHome implements Initializable {
             Reservation reservation = (Reservation) reservations.getSelectionModel().getSelectedItem();
             setSelectedReservation(reservation);
 
-            Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("../View/reservationDetails.fxml"));
+                ControllerOperations.loadPage("../View/reservationDetails.fxml", event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Scene scene = new Scene(root);
-            Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            app_stage.setScene(scene);
-            app_stage.show();
         }
     }
     public Reservation getSelectedReservation () {
@@ -120,35 +105,19 @@ public class StaffHome implements Initializable {
     }
 
     public void bookRoomHandler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/availableRooms.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/availableRooms.fxml", actionEvent);
     }
 
     public void addRoomHandler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/addRoom.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/addRoom.fxml", actionEvent);
     }
 
     public void backHandler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/staffHome.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/staffHome.fxml", actionEvent);
     }
 
     public void editProfileHandler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/employeeProfile.fxml"));
-        Scene scene = new Scene(root);
-        Stage app_stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        app_stage.setScene(scene);
-        app_stage.show();
+        ControllerOperations.loadPage("../View/employeeProfile.fxml", actionEvent);
     }
 
     public void filterReservationHandler(ActionEvent actionEvent) throws IOException {
