@@ -1,8 +1,9 @@
-package Model;
-
 public class Room {
     private int roomNO = -1;
     private int hotelID  = -1;
+    private String hotelName = "";
+    private String country = "";
+    private String city = "";
     private int branchID = -1;
     private int floorNO = -1;
     private int bedsNO = -1;
@@ -128,6 +129,30 @@ public class Room {
         this.checkOUTdate = checkOUTdate;
     }
 
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
@@ -141,6 +166,9 @@ public class Room {
                 ", roomType=" + roomType +
                 ", roomView=" + roomView +
                 ", reserved=" + isReserved +
+                ", hotelName=" + hotelName +
+                ", country=" + country +
+                ", city=" + city +
                 '}';
     }
 }

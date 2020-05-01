@@ -1,5 +1,3 @@
-package Model;
-
 public class Employee {
     private int employeeID;
     private String firstName;

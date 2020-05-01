@@ -1,9 +1,5 @@
-package Model;
-
-import Model.SQLConnection;
-
 import java.sql.PreparedStatement;
-import java.sql.SQLException;;
+import java.sql.SQLException;
 
 public class ManageRoom {
     public boolean addRoom(Room room) throws SQLException {

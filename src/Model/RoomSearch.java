@@ -1,5 +1,3 @@
-package Model;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -240,7 +238,7 @@ public class RoomSearch {
         }
         return rooms;
     }
-    private Room constructRoom(ResultSet rs, boolean isReserved){
+    public Room constructRoom(ResultSet rs, boolean isReserved){
         Room room = new Room();
         try {
             room.setRoomNO(rs.getInt("Room_No"));
@@ -253,6 +251,11 @@ public class RoomSearch {
             room.setRoomType(rs.getString("Type"));
             room.setRoomView(rs.getString("View"));
             room.setReserved(isReserved);
+            ManageDataBase manageDataBase = new ManageDataBase();
+            Branch branch = manageDataBase.getBranchInfo(room.getHotelID(), room.getBranchID());
+            room.setHotelName(branch.getHotelName());
+            room.setCity(branch.getCity());
+            room.setCountry(branch.getCountry());
             return room;
         } catch(Exception e){
             System.out.println(e);

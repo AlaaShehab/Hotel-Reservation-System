@@ -1,8 +1,9 @@
-package Model;
-
 public class Reservation {
     private int reservationID = -1;
     private int hotelID = -1;
+    private String hotelName = "";
+    private String country = "";
+    private String city = "";
     private int branchID = -1;
     private int userID = -1;
     private int roomNO = -1;
@@ -110,6 +111,30 @@ public class Reservation {
         this.phoneNO = phoneNO;
     }
 
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -117,10 +142,17 @@ public class Reservation {
                 ", hotelID=" + hotelID +
                 ", branchID=" + branchID +
                 ", userID=" + userID +
+                ", userFN=" + userFN +
+                ", userLN=" + userLN +
+                ", userEmail=" + userEmail +
+                ", phoneNO=" + phoneNO +
                 ", roomNO=" + roomNO +
                 ", checkINDate=" + checkINDate +
                 ", checkINDate=" + checkINDate +
                 ", isPaid=" + isPaid +
+                ", hotelName=" + hotelName +
+                ", country=" + country +
+                ", city=" + city +
                 '}';
     }
 }

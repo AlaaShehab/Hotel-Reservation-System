@@ -1,12 +1,10 @@
-package Model;
-
 public class User {
     private int userID;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
-    private int numberOfReservs;
+    private String password;
 
     public int getUserID() {
         return userID;
@@ -48,12 +46,12 @@ public class User {
         this.email = email;
     }
 
-    public int getNumberOfReservs() {
-        return numberOfReservs;
+    public String getPassword() {
+        return password;
     }
 
-    public void setNumberOfReservs(int numberOfReservs) {
-        this.numberOfReservs = numberOfReservs;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -64,7 +62,6 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", email=" + email +
-                ", numberOfReservs=" + numberOfReservs +
                 '}';
     }
 }

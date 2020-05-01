@@ -1,5 +1,3 @@
-package Model;
-
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -24,20 +22,6 @@ public class ReservationSearch {
     public ArrayList<Reservation> getReservationsByCheckINDate(String date) throws ParseException {
         String query = "SELECT * FROM Reservation " +
                 "WHERE Check_IN = '" + date +"';";
-        ArrayList<Reservation> reservations = new ArrayList<>();
-        try {
-            ResultSet rs = SQLConnection.getInstance().getData(query);
-            while (rs.next()) {
-                reservations.add(constructReservation(rs));
-            }
-        } catch(Exception e){
-            System.out.println(e);
-        }
-        return reservations;
-    }
-    public ArrayList<Reservation> getReservationsByUserEmail(String userEmail){
-        String query = "SELECT * FROM Reservation NATURAL JOIN User " +
-                "WHERE Email='"+userEmail+"';";
         ArrayList<Reservation> reservations = new ArrayList<>();
         try {
             ResultSet rs = SQLConnection.getInstance().getData(query);
@@ -148,7 +132,7 @@ public class ReservationSearch {
         }
         return reservations;
     }
-    private Reservation constructReservation(ResultSet rs){
+    public Reservation constructReservation(ResultSet rs){
         Reservation reservation = new Reservation();
         try {
             reservation.setReservationID(rs.getInt("Reservation_ID"));
@@ -159,6 +143,20 @@ public class ReservationSearch {
             reservation.setCheckINDate(rs.getString("Check_IN"));
             reservation.setCheckOUTDate(rs.getString("Check_OUT"));
             reservation.setPaid(rs.getBoolean("Paid"));
+
+            ManageDataBase manageDataBase = new ManageDataBase();
+            Branch branch = manageDataBase.getBranchInfo(reservation.getHotelID(), reservation.getBranchID());
+            reservation.setHotelName(branch.getHotelName());
+            reservation.setCity(branch.getCity());
+            reservation.setCountry(branch.getCountry());
+
+            ManageUser manageUser = new ManageUser();
+            User user = manageUser.getUserByID(reservation.getUserID());
+            reservation.setUserEmail(user.getEmail());
+            reservation.setUserFN(user.getFirstName());
+            reservation.setUserLN(user.getLastName());
+            reservation.setPhoneNO(user.getPhoneNumber());
+
             return reservation;
         } catch(Exception e){
             System.out.println(e);

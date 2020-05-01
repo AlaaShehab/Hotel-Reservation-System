@@ -1,5 +1,3 @@
-package Model;
-
 public class Branch {
     private int branchID;
     private int hotelID;
