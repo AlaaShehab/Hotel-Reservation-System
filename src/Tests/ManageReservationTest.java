@@ -1,10 +1,9 @@
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class ManageReservationTest {
     ManageReservation manageReservation = new ManageReservation();
@@ -12,7 +11,7 @@ public class ManageReservationTest {
     @Test
     public void addReservation() throws SQLException, ParseException {
         Reservation reservation = new Reservation();
-        reservation.setResrvationID(3);
+        reservation.setReservationID(3);
         reservation.setHotelID(1);
         reservation.setBranchID(1);
         reservation.setRoomNO(1);
@@ -31,7 +30,7 @@ public class ManageReservationTest {
     @Test
     public void editReservationInfo() throws SQLException {
         Reservation reservation = new Reservation();
-        reservation.setResrvationID(3);
+        reservation.setReservationID(3);
         reservation.setHotelID(1);
         reservation.setBranchID(1);
         reservation.setRoomNO(2);

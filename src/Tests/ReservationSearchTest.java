@@ -1,10 +1,10 @@
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class ReservationSearchTest {
     ManageReservation manageReservation = new ManageReservation();
@@ -14,7 +14,7 @@ public class ReservationSearchTest {
     public void getReservationsOfToday() {
         ArrayList<Reservation> reservations = reservationSearch.getReservationsOfToday();
         for(Reservation res: reservations){
-            assertEquals(3, res.getResrvationID());
+            assertEquals(3, res.getReservationID());
         }
     }
 
@@ -22,14 +22,14 @@ public class ReservationSearchTest {
     public void getPaidReservations() {
         ArrayList<Reservation> reservations = reservationSearch.getPaidReservations();
         for(Reservation res: reservations){
-            assertEquals(1, res.getResrvationID());
+            assertEquals(1, res.getReservationID());
         }
     }
 
     @Test
     public void getReservationInfo() throws SQLException, ParseException {
         Reservation reservation = new Reservation();
-        reservation.setResrvationID(3);
+        reservation.setReservationID(3);
         reservation.setHotelID(1);
         reservation.setBranchID(1);
         reservation.setRoomNO(1);
@@ -46,7 +46,7 @@ public class ReservationSearchTest {
     public void filterReservationsByCheckINDate() throws ParseException {
         ArrayList<Reservation> reservations = reservationSearch.getReservationsByCheckINDate("2020-08-20");
         for(Reservation res: reservations){
-            assertEquals(2, res.getResrvationID());
+            assertEquals(2, res.getReservationID());
         }
     }
 
@@ -61,7 +61,7 @@ public class ReservationSearchTest {
         reservation.setPhoneNO("0120288702");
         ArrayList<Reservation> reservations = reservationSearch.filterReservations(reservation);
         for(Reservation res: reservations){
-            assertEquals(1, res.getResrvationID());
+            assertEquals(1, res.getReservationID());
         }
     }
 }
